@@ -225,7 +225,7 @@ public class StartDutchPayFragment extends Fragment {
     }
 
     public interface DataListener {
-        void dataListenerSet(String tmp);
+        void dataListenerSet(String data);
 
     }
 }

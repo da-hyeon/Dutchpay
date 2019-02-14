@@ -7,6 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.JoinDutchPayFragment">
 
+    <RelativeLayout
+        android:id="@+id/layout_QRCodeStart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/btn_QRCodeStart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="QR코드 스캔하기"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_QRCodeCamera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
     <SurfaceView
 
         android:id="@+id/cameraPreview"
@@ -24,5 +41,5 @@
         android:gravity="center_horizontal"
         android:text="QR코드를 스캔합니다."
         android:textSize="20sp" />
-
+    </RelativeLayout>
 </RelativeLayout>

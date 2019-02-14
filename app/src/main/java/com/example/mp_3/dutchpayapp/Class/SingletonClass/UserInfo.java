@@ -7,6 +7,8 @@ public class UserInfo {
     private String userName;
     private String userEmail;
     private int userDutchMoney;
+    private boolean userState;          // 0 : 결제 진행x  , 1 : 결제 진행중
+    private String userQRCode;
 
     private UserInfo(){
 
@@ -20,12 +22,13 @@ public class UserInfo {
         return UserInfoHolder.ourInstance;
     }
 
-    public void setUserInfo(String userID, String userPassword, String userName, String userEmail, int userDutchMoney) {
+    public void setUserInfo(String userID, String userPassword, String userName, String userEmail, int userDutchMoney , boolean userState) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userDutchMoney = userDutchMoney;
+        this.userState = userState;
     }
 
     public String getUserID() {
@@ -66,5 +69,21 @@ public class UserInfo {
 
     public void setUserDutchMoney(int userDutchMoney) {
         this.userDutchMoney = userDutchMoney;
+    }
+
+    public boolean isUserState() {
+        return userState;
+    }
+
+    public void setUserState(boolean userState) {
+        this.userState = userState;
+    }
+
+    public String getUserQRCode() {
+        return userQRCode;
+    }
+
+    public void setUserQRCode(String userQRCode) {
+        this.userQRCode = userQRCode;
     }
 }

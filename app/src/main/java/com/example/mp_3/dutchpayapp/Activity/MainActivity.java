@@ -2,6 +2,7 @@ package com.example.mp_3.dutchpayapp.Activity;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -35,27 +36,39 @@ public class MainActivity extends AppCompatActivity implements StartDutchPayFrag
     private BackPressCloseHandler backPressCloseHandler;
     private String userID;
 
-    private GlobalVariable globalVariable;
     private TabPagerAdapter pagerAdapter;
 
     private UserInfo userInfo;
+    private SharedPreferences pref;
 
-    TextView MainTV;
+    private TextView MainTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //뒤로가기
         backPressCloseHandler = new BackPressCloseHandler(this);
-        globalVariable = GlobalVariable.getInstance();
+
+        //유저정보 load
         userInfo = UserInfo.getInstance();
+
+        //앱 내에 저장된 데이터 Load
+        pref = getSharedPreferences("QR_CODE", MODE_PRIVATE);
+        userInfo.setUserQRCode(pref.getString("qrData", ""));
+
 
         //userID
         userID = getIntent().getExtras().getString("userID");
         Log.d("userID : " , userID);
 
+        //DB접근 -> user정보 get
         new BackGroundTask().execute();
 
+
+
+        //상단 보유 더치머니 textview
         MainTV = (TextView)findViewById(R.id.tv_main_money);
 
 
@@ -82,14 +95,6 @@ public class MainActivity extends AppCompatActivity implements StartDutchPayFrag
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                Log.d("getPosition : ", tab.getPosition() + "");
-
-                if (tab.getPosition() == 0) {
-
-                    if (globalVariable.getStartPageState() == 0) {
-
-                    }
-                }
             }
 
             @Override
@@ -102,16 +107,13 @@ public class MainActivity extends AppCompatActivity implements StartDutchPayFrag
 
             }
         });
-
-
     }
 
     @Override
-    public void dataListenerSet(String tmp) {
+    public void dataListenerSet(String data) {
         Intent intent = new Intent(this, QRCodeCreateActivity.class);
-        intent.putExtra("tmp", tmp);
+        intent.putExtra("data", data);
         startActivity(intent);
-        finish();
     }
 
     public void onBackPressed() {
@@ -126,9 +128,10 @@ public class MainActivity extends AppCompatActivity implements StartDutchPayFrag
         String userName;
         String userEmail;
         int userDutchMoney;
+        int userState;
 
         UserInfo userInfo;
-
+        boolean userStateChecked;
         @Override
         protected void onPreExecute() {
             try {
@@ -182,15 +185,40 @@ public class MainActivity extends AppCompatActivity implements StartDutchPayFrag
                     userName = object.getString("userName");
                     userEmail = object.getString("userEmail");
                     userDutchMoney = object.getInt("userDutchMoney");
+                    userState = object.getInt("userState");
                     count++;
                 }
+                if(userState == 1)
+                    userStateChecked = true;
+                else
+                    userStateChecked = false;
 
-                userInfo.setUserInfo(userID, userPassword, userName, userEmail, userDutchMoney);
+                userInfo.setUserInfo(userID, userPassword, userName, userEmail, userDutchMoney , userStateChecked);
 
                 MainTV.setText("더치머니 "+ userInfo.getUserDutchMoney() + "원 보유");
+
+                //user의 결제상태가 진행중이라면 앱 내에 저장되어있는 QRCODE데이터를 Load하여 QRCodeCreateActivity로 전달.
+                if(userStateChecked) {
+                    Intent intent = new Intent(MainActivity.this , QRCodeCreateActivity.class);
+                    intent.putExtra("data", userInfo.getUserQRCode());
+                    startActivity(intent);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //user의 결제상태가 진행중이라면 앱 종료시 QRCODE의 data를 앱 내에 저장.
+        if(userInfo.isUserState()) {
+
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("qrData", userInfo.getUserQRCode());
+            editor.commit();
         }
     }
 }
