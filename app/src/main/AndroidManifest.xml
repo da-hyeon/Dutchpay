@@ -28,7 +28,8 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity"></activity>
+        <activity android:name=".Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity" />
+        <activity android:name=".Activity.StartDutchPayActivity.DutchGroupControlActivity"></activity>
     </application>
 
 </manifest>

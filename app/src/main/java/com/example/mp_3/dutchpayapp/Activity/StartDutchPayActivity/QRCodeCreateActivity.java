@@ -1,6 +1,7 @@
 package com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.support.v7.app.AlertDialog;
@@ -65,7 +66,7 @@ public class QRCodeCreateActivity extends AppCompatActivity {
 
         //QR코드 생성 data는 [userID + host가 설정한 금액]
         qrgEncoder = new QRGEncoder(
-                qrKey+ "," + amount, null,
+                qrKey + "," + amount, null,
                 QRGContents.Type.TEXT,
                 smallerDimension);
         try {
@@ -76,7 +77,7 @@ public class QRCodeCreateActivity extends AppCompatActivity {
         }
 
         //취소하기
-        QR_Cancel = (Button)findViewById(R.id.QR_Cancel);
+        QR_Cancel = (Button) findViewById(R.id.QR_Cancel);
         QR_Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,11 +123,14 @@ public class QRCodeCreateActivity extends AppCompatActivity {
         });
 
         //마감하기
-        QR_Finish = (Button)findViewById(R.id.QR_Finish);
+        QR_Finish = (Button) findViewById(R.id.QR_Finish);
         QR_Finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userInfo.setUserState(false);
+                //액티비티 이동 ->
+                Intent intent = new Intent(getApplicationContext(), DutchGroupControlActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -135,9 +139,9 @@ public class QRCodeCreateActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         //Activity종료시 취소버튼없이 종료했고 , user가 결제상태가 진행중이라면 앱을 다시 시작했을떄 user에게 QR코드를 보여줄 필요가 있음.
-        if(userInfo.isUserState()){
+        if (userInfo.isUserState()) {
             //따라서 현재 QR코드의 Data를 userInfo에 저장
-            userInfo.setUserQRCode(qrKey+ "," + amount);
+            userInfo.setUserQRCode(qrKey + "," + amount);
         }
     }
 }
