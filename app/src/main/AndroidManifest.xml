@@ -29,7 +29,8 @@
             android:value="barcode" />
 
         <activity android:name=".Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity" />
-        <activity android:name=".Activity.StartDutchPayActivity.DutchGroupControlActivity"></activity>
+        <activity android:name=".Activity.StartDutchPayActivity.DutchGroupControlActivity" />
+        <activity android:name=".Activity.StartDutchPayActivity.ConfirmedDutchPayActivity"></activity>
     </application>
 
 </manifest>

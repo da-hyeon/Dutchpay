@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private BackPressCloseHandler backPressCloseHandler;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 final String userPassword = et_password.getText().toString();
 
                 if(stringCheck(et_id , et_password)) {
-
+                    Log.d("뭐야? : " , "뭐야대체?");
                     Response.Listener<String> responseLister = new Response.Listener<String>() {
 
                         @Override

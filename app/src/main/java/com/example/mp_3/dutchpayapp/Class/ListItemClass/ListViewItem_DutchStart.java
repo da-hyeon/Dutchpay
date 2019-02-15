@@ -1,37 +1,67 @@
 package com.example.mp_3.dutchpayapp.Class.ListItemClass;
 
 public class ListViewItem_DutchStart {
-    private String member;
-    private int cost;
-    private int userCost;
+    private int listNum;
+    private String hostID;
+    private String userID;
+    private int Amount;
+    private int directInputAmount;
 
-    public ListViewItem_DutchStart(String member, int cost, int userCost) {
-        this.member = member;
-        this.cost = cost;
-        this.userCost = userCost;
+    private boolean prePaymentCheck;
+
+    public ListViewItem_DutchStart(int listNum , String hostID, String userID, int amount, int directInputAmount) {
+        this.hostID = hostID;
+        this.userID = userID;
+        Amount = amount;
+        this.directInputAmount = directInputAmount;
+        this.listNum = listNum;
     }
 
-    public String getMember() {
-        return member;
+    public int getListNum() {
+        return listNum;
     }
 
-    public void setMember(String member) {
-        this.member = member;
+    public void setListNum(int listNum) {
+        this.listNum = listNum;
     }
 
-    public int getCost() {
-        return cost;
+    public String getHostID() {
+        return hostID;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
+    public void setHostID(String hostID) {
+        this.hostID = hostID;
     }
 
-    public int getUserCost() {
-        return userCost;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUserCost(int userCost) {
-        this.userCost = userCost;
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public int getAmount() {
+        return Amount;
+    }
+
+    public void setAmount(int amount) {
+        Amount = amount;
+    }
+
+    public int getDirectInputAmount() {
+        return directInputAmount;
+    }
+
+    public void setDirectInputAmount(int directInputAmount) {
+        this.directInputAmount = directInputAmount;
+    }
+
+    public boolean isPrePaymentCheck() {
+        return prePaymentCheck;
+    }
+
+    public void setPrePaymentCheck(boolean prePaymentCheck) {
+        this.prePaymentCheck = prePaymentCheck;
     }
 }

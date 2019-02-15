@@ -108,7 +108,6 @@ public class JoinDutchPayFragment extends Fragment {
                         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                             //Request permission
                             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, RequestCameraPermissionID);
-
                             return;
                         }
                         try {
@@ -185,10 +184,6 @@ public class JoinDutchPayFragment extends Fragment {
                 });
             }
         });
-
-
-
-
         return view;
     }
 }

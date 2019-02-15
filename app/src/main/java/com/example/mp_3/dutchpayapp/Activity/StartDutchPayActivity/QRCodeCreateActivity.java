@@ -133,7 +133,6 @@ public class QRCodeCreateActivity extends AppCompatActivity {
                 //액티비티 이동 ->
                 Intent intent = new Intent(getApplicationContext(), DutchGroupControlActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
     }

@@ -148,18 +148,18 @@ public class DetailPaymentHistoryFragment extends Fragment {
                     companyName = object.getString("companyName");
                     participantName = object.getString("participantName");
                     Amount = object.getInt("Amount");
+
+                    listViewItem_totalHistories.add(new ListViewItem_TotalHistory(historyID, date, companyName, participantName, Amount));
                     count++;
                 }
 
-                Log.d("오류?", historyID + date + companyName + participantName + Amount);
-                listViewItem_totalHistories.add(new ListViewItem_TotalHistory(historyID, date, companyName, participantName, Amount));
+
 
                 totalHistoryListViewAdapter = new TotalHistoryListViewAdapter(listViewItem_totalHistories);
                 list.setAdapter(totalHistoryListViewAdapter);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.d("맞아?", "맞아?");
             }
         }
     }

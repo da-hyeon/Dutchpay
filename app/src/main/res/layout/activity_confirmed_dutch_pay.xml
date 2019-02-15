@@ -94,7 +94,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="4"
                 android:gravity="center"
-                android:text="직접 입력"
+                android:text="확정 금액"
                 android:textColor="@color/cast_expanded_controller_background_color"
                 android:textSize="16dp"
                 android:textStyle="bold" />
