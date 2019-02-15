@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 final String userPassword = et_password.getText().toString();
 
                 if(stringCheck(et_id , et_password)) {
+
                     Response.Listener<String> responseLister = new Response.Listener<String>() {
 
                         @Override
@@ -58,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject jsonResponse = new JSONObject(response);
                                 boolean success = jsonResponse.getBoolean("success");
                                 if (success) {
+                                    Log.d("뭐야? : " , "뭐야대체?");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                     dialog = builder.setMessage("로그인에 성공했습니다.")
                                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {

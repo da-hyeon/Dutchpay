@@ -1,8 +1,11 @@
 package com.example.mp_3.dutchpayapp.Fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +16,12 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.mp_3.dutchpayapp.Activity.LoginActivity;
+import com.example.mp_3.dutchpayapp.Activity.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCreate_DBAddRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.GlobalVariable;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
+import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;
 
 import org.json.JSONObject;
@@ -187,28 +193,39 @@ public class StartDutchPayFragment extends Fragment {
         code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //응답받기
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if(success){
-                                //mmoney값 전달
-                                dataListener.dataListenerSet(money);
+                if (money.length() > 1) {
+                    //응답받기
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
+                                if (success) {
+                                    //mmoney값 전달
+                                    dataListener.dataListenerSet(money);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.d("DB Error : ", "에러에러");
                             }
                         }
-                        catch (Exception e){
-                            e.printStackTrace();
-                            Log.d("DB Error : " , "에러에러");
-                        }
-                    }
-                };
-                QRCreate_DBAddRequest qrCreateDBAddRequest = new QRCreate_DBAddRequest(userInfo.getUserID() , money , responseListener);
-                RequestQueue queue = Volley.newRequestQueue(getContext());
-                queue.add(qrCreateDBAddRequest);
+                    };
+                    QRCreate_DBAddRequest qrCreateDBAddRequest = new QRCreate_DBAddRequest(userInfo.getUserID(), money, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                    queue.add(qrCreateDBAddRequest);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    AlertDialog dialog = builder.setMessage("최소 10원 이상이어야 합니다.")
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).setCancelable(false)
+                            .create();
+                    dialog.show();
+                }
             }
         });
 
@@ -224,8 +241,4 @@ public class StartDutchPayFragment extends Fragment {
         return view;
     }
 
-    public interface DataListener {
-        void dataListenerSet(String data);
-
-    }
 }

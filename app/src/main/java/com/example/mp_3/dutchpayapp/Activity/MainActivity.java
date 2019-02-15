@@ -11,12 +11,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.mp_3.dutchpayapp.Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.QRCodeCreateActivity;
-import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter;
+import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter.TabPagerAdapter;
 import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
-import com.example.mp_3.dutchpayapp.Class.SingletonClass.GlobalVariable;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
-import com.example.mp_3.dutchpayapp.Fragment.StartDutchPayFragment;
+import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;
 
 import org.json.JSONArray;
@@ -28,8 +28,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements StartDutchPayFragment.DataListener {
+public class MainActivity extends AppCompatActivity implements DataListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -113,6 +114,13 @@ public class MainActivity extends AppCompatActivity implements StartDutchPayFrag
     public void dataListenerSet(String data) {
         Intent intent = new Intent(this, QRCodeCreateActivity.class);
         intent.putExtra("data", data);
+        startActivity(intent);
+    }
+
+    @Override
+    public void ArrayListenerSet (ArrayList<String> tmp) {
+        Intent intent = new Intent(this, DetailPaymentHistoryActivity.class);
+        intent.putExtra("tmp",tmp);
         startActivity(intent);
     }
 

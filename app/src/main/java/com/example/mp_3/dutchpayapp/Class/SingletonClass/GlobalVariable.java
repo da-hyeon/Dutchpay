@@ -1,7 +1,5 @@
 package com.example.mp_3.dutchpayapp.Class.SingletonClass;
 
-import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter;
-
 public class GlobalVariable {
 
     private static int startPageState;     //결제 진행 페이지

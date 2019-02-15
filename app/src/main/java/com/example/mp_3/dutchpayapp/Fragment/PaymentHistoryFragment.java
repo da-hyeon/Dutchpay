@@ -8,13 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter_history;
+import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter.TabPagerAdapter_history;
+import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;
 
 public class PaymentHistoryFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private DataListener dataListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

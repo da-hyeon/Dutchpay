@@ -1,4 +1,4 @@
-package com.example.mp_3.dutchpayapp.Class.Adapter;
+package com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
