@@ -217,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

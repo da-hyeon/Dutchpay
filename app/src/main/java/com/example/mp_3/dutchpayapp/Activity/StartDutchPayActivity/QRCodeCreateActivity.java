@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCancel_DBDeleteRequest;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.QRScan_DBAddRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
@@ -42,6 +43,8 @@ public class QRCodeCreateActivity extends AppCompatActivity {
 
     private Button QR_Cancel;
     private Button QR_Finish;
+
+    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +146,10 @@ public class QRCodeCreateActivity extends AppCompatActivity {
             //따라서 현재 QR코드의 Data를 userInfo에 저장
             userInfo.setUserQRCode(qrKey + "," + amount);
         }
+    }
+
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 }
 
