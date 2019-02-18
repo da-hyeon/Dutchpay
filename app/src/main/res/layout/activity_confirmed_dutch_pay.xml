@@ -17,7 +17,7 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:title="모집된 멤버 ( #명 )" />
+            app:title="모집된 멤버 ( )" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +48,6 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="총 금액 80,000원"
                     android:textColor="@color/cast_expanded_controller_background_color"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -80,21 +79,9 @@
                 android:id="@+id/textView5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="6"
                 android:gravity="center"
                 android:text="금액"
-                android:textColor="@color/cast_expanded_controller_background_color"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="4"
-                android:gravity="center"
-                android:text="확정 금액"
                 android:textColor="@color/cast_expanded_controller_background_color"
                 android:textSize="16dp"
                 android:textStyle="bold" />

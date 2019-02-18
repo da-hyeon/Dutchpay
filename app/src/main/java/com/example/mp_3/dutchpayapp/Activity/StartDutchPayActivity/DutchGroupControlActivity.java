@@ -85,15 +85,22 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                                             }
                                         }
                                     };
-                                    ParticipantInfoUpdateRequest participantInfoUpdateRequest = new ParticipantInfoUpdateRequest(listViewItemList.get(i).getUserID(), listViewItemList.get(i).getDirectInputAmount() + "", listViewItemList.get(i).isPrePaymentCheck(), responseListener);
+                                    ParticipantInfoUpdateRequest participantInfoUpdateRequest = new ParticipantInfoUpdateRequest(listViewItemList.get(i).getUserID(), listViewItemList.get(i).getAssignedAmount()+"" , listViewItemList.get(i).isPrePaymentCheck(), responseListener);
                                     RequestQueue queue = Volley.newRequestQueue(DutchGroupControlActivity.this);
                                     queue.add(participantInfoUpdateRequest);
-
+                                    Log.d(listViewItemList.get(i).getUserID() + "의 AssignedAmount : " , listViewItemList.get(i).getAssignedAmount()+"");
                                 }
                                 Intent intent = new Intent(DutchGroupControlActivity.this, ConfirmedDutchPayActivity.class);
                                 startActivity(intent);
                             }
-                        }).setCancelable(false)
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setCancelable(false)
                         .create();
                 dialog.show();
             }
@@ -106,7 +113,9 @@ public class DutchGroupControlActivity extends AppCompatActivity {
         String hostID;
         String userID;
         int Amount;
+        int assignedAmount;
         int directInputAmount;
+        int prePaymentCheck;
 
 
         @Override
@@ -161,15 +170,35 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                     hostID = object.getString("hostID");
                     userID = object.getString("userID");
                     Amount = object.getInt("Amount");
-                    directInputAmount = object.getInt("directInputAmount");
+                    assignedAmount = object.getInt("assignedAmount");
+                    prePaymentCheck = object.getInt("prePayment");
 
-                    listViewItemList.add(new ListViewItem_DutchStart(count, hostID, userID, Amount, directInputAmount));
+                    listViewItemList.add(new ListViewItem_DutchStart(count, hostID, userID, Amount, assignedAmount , prePaymentCheck));
                     count++;
                 }
 
+                //금액이 정확히 나누어 떨어지지 않으면
+                if(Amount % count != 0){
+                    for( int i = 0; i < listViewItemList.size(); i++){
+                        //나머지금액은 host에게 부과함.
+                        if(listViewItemList.get(i).getHostID().equals(listViewItemList.get(i).getUserID())){
+                            listViewItemList.get(i).setDistributedAmount((Amount / count) + Amount % count);
+                            listViewItemList.get(i).setAssignedAmount((Amount / count) + Amount % count);
+                        } else {
+                            listViewItemList.get(i).setDistributedAmount((Amount / count));
+                            listViewItemList.get(i).setAssignedAmount((Amount / count));
+                        }
+                    }
+                } else {
+                    for( int i = 0; i < listViewItemList.size(); i++){
+                        listViewItemList.get(i).setDistributedAmount((Amount / count));
+                        listViewItemList.get(i).setAssignedAmount((Amount / count));
+                    }
+                }
+
                 toolbar.setTitle("모집된 멤버 ( " + count + "명 )");
-                tv_totalCost.setText("총 금액 " + Amount + "원");
-                adapter = new DutchStartListViewAdapter(getApplicationContext(), listViewItemList, count);
+                tv_totalCost.setText("총 금액 " + String.format("%,d", Amount)   + "원");
+                adapter = new DutchStartListViewAdapter(getApplicationContext(), listViewItemList, count , Amount);
                 list.setAdapter(adapter);
 
             } catch (Exception e) {

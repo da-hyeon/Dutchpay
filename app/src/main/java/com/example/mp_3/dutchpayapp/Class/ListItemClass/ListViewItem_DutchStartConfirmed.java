@@ -1,6 +1,6 @@
 package com.example.mp_3.dutchpayapp.Class.ListItemClass;
 
-public class ListViewItem_DutchStart {
+public class ListViewItem_DutchStartConfirmed {
     private int listNum;
     private String hostID;
     private String userID;
@@ -10,7 +10,7 @@ public class ListViewItem_DutchStart {
 
     private boolean prePaymentCheck;
 
-    public ListViewItem_DutchStart(int listNum , String hostID, String userID, int amount, int assignedAmount, int prePaymentCheck) {
+    public ListViewItem_DutchStartConfirmed(int listNum , String hostID, String userID, int amount, int assignedAmount, int prePaymentCheck) {
         this.listNum = listNum;
         this.hostID = hostID;
         this.userID = userID;
