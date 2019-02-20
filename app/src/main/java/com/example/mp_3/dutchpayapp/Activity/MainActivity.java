@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -53,14 +55,22 @@ public class MainActivity extends AppCompatActivity implements DataListener {
 
     private UserInfo userInfo;
     private SharedPreferences pref;
-
+    private SharedPreferences pref_AutoLogin;
     private TextView MainTV;
+
+    private Button btn_Logout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
 
 
         //뒤로가기
@@ -120,16 +130,24 @@ public class MainActivity extends AppCompatActivity implements DataListener {
             }
         });
 
-
-        OneSignal.startInit(this)
-                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-                .unsubscribeWhenNotificationsAreDisabled(true)
-                .init();
-
-
+        btn_Logout = (Button) findViewById(R.id.btn_Logout);
+        btn_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pref_AutoLogin = getSharedPreferences("AutoLogin", MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref_AutoLogin.edit();
+                editor.putString("sharedUserID", "");
+                editor.putString("sharedUserPassword", "");
+                editor.commit();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
     }
+
     private OSSubscriptionObserver mSubscriptionObserver = new OSSubscriptionObserver() {
 
         @Override

@@ -2,6 +2,7 @@ package com.example.mp_3.dutchpayapp.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -27,10 +28,27 @@ public class LoginActivity extends AppCompatActivity {
     private AlertDialog dialog;
     private BackPressCloseHandler backPressCloseHandler;
 
+    private SharedPreferences pref;
+
+    private String sharedUserID;
+    private String sharedUserPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //앱 내에 저장된 데이터 Load
+        pref = getSharedPreferences("AutoLogin", MODE_PRIVATE);
+        sharedUserID = pref.getString("sharedUserID", "");
+        sharedUserPassword = pref.getString("sharedUserPassword", "");
+
+        if(!sharedUserID.equals("") && !sharedUserPassword.equals("")){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+            intent.putExtra("userID", sharedUserID);
+            startActivity(intent);
+            finish();
+        }
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
@@ -40,6 +58,10 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText et_id = (EditText) findViewById(R.id.et_id);
         final EditText et_password = (EditText) findViewById(R.id.et_password);
+
+
+
+
 
         //로그인버튼
         Button login = (Button) findViewById(R.id.btn_login);
@@ -51,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
                 final String userPassword = et_password.getText().toString();
 
                 if(stringCheck(et_id , et_password)) {
-                    Log.d("뭐야? : " , "뭐야대체?");
                     Response.Listener<String> responseLister = new Response.Listener<String>() {
 
                         @Override
@@ -60,13 +81,16 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject jsonResponse = new JSONObject(response);
                                 boolean success = jsonResponse.getBoolean("success");
                                 if (success) {
-                                    Log.d("뭐야? : " , "뭐야대체?");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                     dialog = builder.setMessage("로그인에 성공했습니다.")
                                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     //login service
+                                                    SharedPreferences.Editor editor = pref.edit();
+                                                    editor.putString("sharedUserID", userID);
+                                                    editor.putString("sharedUserPassword", userPassword);
+                                                    editor.commit();
 
                                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 

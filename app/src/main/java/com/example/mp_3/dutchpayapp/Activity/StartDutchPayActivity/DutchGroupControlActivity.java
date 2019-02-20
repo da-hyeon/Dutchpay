@@ -85,16 +85,6 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                                                 boolean success = jsonResponse.getBoolean("success");
                                                 if (success) {
 
-                                                    for(int j  = 0; j < userPushIDList.size(); j++ ) {
-                                                        try {
-                                                            OneSignal.postNotification(new JSONObject("{'contents': {'en':'금액이 확정되었습니다. \n 결제를 진행해주세요.'}, 'include_player_ids': ['" + userPushIDList.get(j) + "']}"), null);
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-
-                                                    Intent intent = new Intent(DutchGroupControlActivity.this, ConfirmedDutchPayActivity.class);
-                                                    startActivity(intent);
                                                 }
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -102,11 +92,23 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                                             }
                                         }
                                     };
+                                    
                                     ParticipantInfoUpdateRequest participantInfoUpdateRequest = new ParticipantInfoUpdateRequest(listViewItemList.get(i).getUserID(), listViewItemList.get(i).getAssignedAmount()+"" , listViewItemList.get(i).isPrePaymentCheck(), responseListener);
                                     RequestQueue queue = Volley.newRequestQueue(DutchGroupControlActivity.this);
                                     queue.add(participantInfoUpdateRequest);
                                     Log.d(listViewItemList.get(i).getUserID() + "의 AssignedAmount : " , listViewItemList.get(i).getAssignedAmount()+"");
                                 }
+
+                                for(int i  = 0; i < userPushIDList.size(); i++ ) {
+                                    try {
+                                        OneSignal.postNotification(new JSONObject("{'contents': {'en':'금액이 확정되었습니다. \n 결제를 진행해주세요.'}, 'include_player_ids': ['" + userPushIDList.get(i) + "']}"), null);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                Intent intent = new Intent(DutchGroupControlActivity.this, ConfirmedDutchPayActivity.class);
+                                startActivity(intent);
 
                             }
                         })
@@ -232,6 +234,7 @@ public class DutchGroupControlActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             try {
+                userPushIDList.clear();
                 target = "http://kjg123kg.cafe24.com/DutchPay_UserPushIDRequest.php?userID=" + URLEncoder.encode(userInfo.getUserID(), "UTF-8");
             } catch (Exception e) {
                 e.printStackTrace();

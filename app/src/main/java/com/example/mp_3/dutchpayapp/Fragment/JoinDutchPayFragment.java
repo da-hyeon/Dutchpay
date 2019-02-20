@@ -1,5 +1,4 @@
 package com.example.mp_3.dutchpayapp.Fragment;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
