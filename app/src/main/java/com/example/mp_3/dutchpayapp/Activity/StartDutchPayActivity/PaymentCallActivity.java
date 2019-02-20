@@ -13,15 +13,30 @@ import com.example.mp_3.dutchpayapp.R;
 
 public class PaymentCallActivity extends AppCompatActivity {
 
+    private String hostID;
+    private String totalParticipantCount;
+    private String totalAmount;
+    private String assignedAmount;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_call);
 
-        TextView member_num = (TextView)findViewById(R.id.tv_member_num);
-        TextView total = (TextView)findViewById(R.id.tv_total_cost);
-        TextView cost = (TextView)findViewById(R.id.tv_cost_dutch);
+        TextView tv_host_name = (TextView)findViewById(R.id.tv_host_name);
+        TextView tv_member_num = (TextView)findViewById(R.id.tv_member_num);
+        TextView tv_total_cost = (TextView)findViewById(R.id.tv_total_cost);
+        TextView tv_cost_dutch = (TextView)findViewById(R.id.tv_cost_dutch);
         //DB작업
+
+        hostID = getIntent().getExtras().getString("hostID");
+        totalParticipantCount= getIntent().getExtras().getString("totalParticipantCount");
+        totalAmount = getIntent().getExtras().getString("totalAmount");
+        assignedAmount = getIntent().getExtras().getString("assignedAmount");
+
+        tv_host_name.setText(hostID+"님");
+        tv_member_num.setText(totalParticipantCount+"명");
+        tv_total_cost.setText(String.format("%,d", Integer.parseInt(totalAmount)) + "원");
+        tv_cost_dutch.setText(String.format("%,d", Integer.parseInt(assignedAmount)) + "원");
 
         Button next = (Button) findViewById(R.id.btn_next_dutch);
         next.setOnClickListener(new View.OnClickListener() {

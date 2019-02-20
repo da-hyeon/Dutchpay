@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.mp_3.dutchpayapp.Activity.LoginActivity;
+import com.example.mp_3.dutchpayapp.Activity.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCancel_DBDeleteRequest;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.QRScan_DBAddRequest;
@@ -53,6 +55,8 @@ public class QRCodeCreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode_create);
+
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
         qrImage = (ImageView) findViewById(R.id.QR_Image);
         userInfo = UserInfo.getInstance();
@@ -106,8 +110,17 @@ public class QRCodeCreateActivity extends AppCompatActivity {
                                         try {
                                             JSONObject jsonResponse = new JSONObject(response);
                                             boolean success = jsonResponse.getBoolean("success");
+                                            Intent intent = new Intent(QRCodeCreateActivity.this, MainActivity.class);
                                             if (success) {
                                                 userInfo.setUserState(0);
+
+                                                intent.putExtra("userID", userInfo.getUserID());
+                                                startActivity(intent);
+                                                finish();
+                                            } else{
+                                                userInfo.setUserState(0);
+                                                intent.putExtra("userID", userInfo.getUserID());
+                                                startActivity(intent);
                                                 finish();
                                             }
                                         } catch (Exception e) {

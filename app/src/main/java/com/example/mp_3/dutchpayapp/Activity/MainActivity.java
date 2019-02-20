@@ -31,18 +31,15 @@ import com.onesignal.OSSubscriptionStateChanges;
 import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity implements DataListener {
 
@@ -190,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         Intent intent = new Intent(this, QRCodeCreateActivity.class);
         intent.putExtra("data", data);
         startActivity(intent);
+        finish();
     }
 
     @Override

@@ -40,13 +40,26 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
     private ListView list;
     private TextView tv_totalCost;
     private Button btn_next_host;
+    private Button btn_before_host;
 
-    UserInfo userInfo;
+    private SharedPreferences pref;
+
+    private String targetHostID;
+    private String totalAmount;
+    private String totalParticipantCount;
+    private String myAssignedAmount;
+
+    private UserInfo userInfo;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmed_dutch_pay);
+
+        pref = getSharedPreferences("hostID", MODE_PRIVATE);
+        targetHostID = pref.getString("hostID", "");
 
         toolbar = findViewById(R.id.tv_memberCount);
         userInfo = UserInfo.getInstance();
@@ -63,7 +76,23 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ConfirmedDutchPayActivity.this , PaymentCallActivity.class);
+                if(targetHostID.equals("")) {
+                    intent.putExtra("hostID", userInfo.getUserID());
+                } else{
+                    intent.putExtra("hostID", targetHostID);
+                }
+                intent.putExtra("totalParticipantCount" , totalParticipantCount);
+                intent.putExtra("totalAmount" , totalAmount);
+                intent.putExtra("assignedAmount" , myAssignedAmount);
                 startActivity(intent);
+            }
+        });
+
+        btn_before_host = (Button) findViewById(R.id.btn_before_host);
+        btn_before_host.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -76,13 +105,12 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
         private int Amount;
         private int assignedAmount;
         private int prePaymentCheck;
-        private SharedPreferences pref;
-        private String targetHostID;
+
+
         @Override
         protected void onPreExecute() {
             try {
-                pref = getSharedPreferences("hostID", MODE_PRIVATE);
-                targetHostID = pref.getString("hostID", "");
+
 
                 //접속한 사람이 호스트일경우
                 if(targetHostID.equals(""))
@@ -140,12 +168,18 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
                     assignedAmount = object.getInt("assignedAmount");
                     prePaymentCheck = object.getInt("prePayment");
 
+                    if(userID.equals(userInfo.getUserID())){
+                        myAssignedAmount = assignedAmount+"";
+                    }
+
                     listViewItemList.add(new ListViewItem_DutchStartConfirmed(count, hostID, userID, Amount, assignedAmount , prePaymentCheck));
                     count++;
                 }
 
                 toolbar.setTitle("모집된 멤버 ( " + count + "명 )");
                 tv_totalCost.setText("총 금액 " + String.format("%,d", Amount)   + "원");
+                totalAmount = Amount+"";
+                totalParticipantCount = count+"";
                 adapter = new DutchStartConfirmedListViewAdapter(getApplicationContext(), listViewItemList, count , Amount);
                 list.setAdapter(adapter);
 

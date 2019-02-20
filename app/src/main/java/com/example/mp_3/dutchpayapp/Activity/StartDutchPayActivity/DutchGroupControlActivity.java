@@ -46,8 +46,8 @@ public class DutchGroupControlActivity extends AppCompatActivity {
     private DutchStartListViewAdapter adapter;
     private ListView list;
     private TextView tv_totalCost;
-
-
+    private Button btn_next_host;
+    private Button btn_before_host;
     UserInfo userInfo;
 
     @Override
@@ -66,8 +66,8 @@ public class DutchGroupControlActivity extends AppCompatActivity {
 
         new BackGroundTask_ParticipantUserList().execute();
 
-        Button next = (Button) findViewById(R.id.btn_next_host);
-        next.setOnClickListener(new View.OnClickListener() {
+        btn_next_host = (Button) findViewById(R.id.btn_next_host);
+        btn_next_host.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DutchGroupControlActivity.this);
@@ -92,7 +92,7 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                                             }
                                         }
                                     };
-                                    
+
                                     ParticipantInfoUpdateRequest participantInfoUpdateRequest = new ParticipantInfoUpdateRequest(listViewItemList.get(i).getUserID(), listViewItemList.get(i).getAssignedAmount()+"" , listViewItemList.get(i).isPrePaymentCheck(), responseListener);
                                     RequestQueue queue = Volley.newRequestQueue(DutchGroupControlActivity.this);
                                     queue.add(participantInfoUpdateRequest);
@@ -121,6 +121,14 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .create();
                 dialog.show();
+            }
+        });
+
+        btn_before_host = (Button) findViewById(R.id.btn_before_host);
+        btn_before_host.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

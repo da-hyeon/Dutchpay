@@ -174,17 +174,43 @@ public class JoinDutchPayFragment extends Fragment {
                                             }
                                         }
                                     };
-                                    String seperator[] = qrcodes.valueAt(0).displayValue.split(",");
-                                    String hostID = seperator[0];
-                                    String amount = seperator[1];
-                                    QRScan_DBAddRequest qrScanDbAddRequest = new QRScan_DBAddRequest(hostID , userInfo.getUserID(), amount ,responseListener);
-                                    RequestQueue queue = Volley.newRequestQueue(getContext());
-                                    queue.add(qrScanDbAddRequest);
-                                    txtResult.setText(qrcodes.valueAt(0).displayValue);
+                                    String QRCodeInfoSeperate[] = qrcodes.valueAt(0).displayValue.split(",");
 
-                                    SharedPreferences.Editor editor = pref.edit();
-                                    editor.putString("hostID", hostID);
-                                    editor.commit();
+                                    String hostID;
+                                    String amount;
+
+                                    if(QRCodeInfoSeperate.length == 2) {
+                                         hostID = QRCodeInfoSeperate[0];
+                                         amount = QRCodeInfoSeperate[1];
+                                        QRScan_DBAddRequest qrScanDbAddRequest = new QRScan_DBAddRequest(hostID , userInfo.getUserID(), amount ,responseListener);
+                                        RequestQueue queue = Volley.newRequestQueue(getContext());
+                                        queue.add(qrScanDbAddRequest);
+                                        txtResult.setText(qrcodes.valueAt(0).displayValue);
+
+                                        SharedPreferences.Editor editor = pref.edit();
+                                        editor.putString("hostID", hostID);
+                                        editor.commit();
+                                    } else{
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        AlertDialog dialog = builder.setMessage("QR코드 정보가 잘못되었습니다.")
+                                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                                            //Request permission
+                                                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, RequestCameraPermissionID);
+                                                            return;
+                                                        }
+                                                        try {
+                                                            cameraSource.start(cameraPreview.getHolder());
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }).setCancelable(false)
+                                                .create();
+                                        dialog.show();
+                                    }
                                 }
                             });
                         }
