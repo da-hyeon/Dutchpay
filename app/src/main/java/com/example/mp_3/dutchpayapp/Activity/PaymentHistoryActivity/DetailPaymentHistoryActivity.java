@@ -27,7 +27,7 @@ public class DetailPaymentHistoryActivity extends AppCompatActivity {
         date.setText(data.get(0));
         shop.setText(data.get(1));
         member.setText(data.get(2));
-        cost.setText(data.get(3));
+        cost.setText(String.format("%,d", Integer.parseInt(data.get(3))) + "원");
 
 
 

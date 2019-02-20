@@ -1,7 +1,9 @@
 package com.example.mp_3.dutchpayapp.Fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,6 +51,8 @@ public class JoinDutchPayFragment extends Fragment {
 
     private Button btn_QRCodeStart;
 
+    private  SharedPreferences pref;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -73,7 +77,7 @@ public class JoinDutchPayFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_join_dutch_pay, null);
-
+        pref = this.getActivity().getSharedPreferences("hostID",Context.MODE_PRIVATE);
         userInfo = UserInfo.getInstance();
 
         layout_QRCodeStart = (RelativeLayout) view.findViewById(R.id.layout_QRCodeStart);
@@ -92,6 +96,8 @@ public class JoinDutchPayFragment extends Fragment {
                 .Builder(getContext(), barcodeDetector)
                 .setRequestedPreviewSize(640, 480)
                 .build();
+
+
 
         btn_QRCodeStart = (Button)view.findViewById(R.id.btn_QRCodeStart);
         btn_QRCodeStart.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +183,9 @@ public class JoinDutchPayFragment extends Fragment {
                                     queue.add(qrScanDbAddRequest);
                                     txtResult.setText(qrcodes.valueAt(0).displayValue);
 
+                                    SharedPreferences.Editor editor = pref.edit();
+                                    editor.putString("hostID", hostID);
+                                    editor.commit();
                                 }
                             });
                         }

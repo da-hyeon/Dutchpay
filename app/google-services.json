@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "236713679640",
+    "firebase_url": "https://dutchpay-1abaf.firebaseio.com",
+    "project_id": "dutchpay-1abaf",
+    "storage_bucket": "dutchpay-1abaf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236713679640:android:28aaad8de981ee66",
+        "android_client_info": {
+          "package_name": "com.example.mp_3.dutchpayapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236713679640-o2b7dv9gt4gurq5r7n3267vbjhlk90j0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU_iQ4yxyzyl5cQC_C5QG0K9YcINc2wss"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

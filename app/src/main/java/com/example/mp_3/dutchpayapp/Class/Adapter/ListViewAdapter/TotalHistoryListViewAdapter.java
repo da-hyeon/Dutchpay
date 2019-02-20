@@ -64,7 +64,7 @@ public class TotalHistoryListViewAdapter extends BaseAdapter {
         viewHolder.date.setText(listViewItemList.get(position).getDate());
         viewHolder.shop.setText(listViewItemList.get(position).getCompanyName());
         viewHolder.member.setText(listViewItemList.get(position).getParticipantName());
-        viewHolder.cost.setText(listViewItemList.get(position).getAmount() + "");
+        viewHolder.cost.setText(String.format("%,d", listViewItemList.get(position).getAmount()) + "원");
 
         return convertView;
     }

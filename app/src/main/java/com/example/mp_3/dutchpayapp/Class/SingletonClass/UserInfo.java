@@ -4,11 +4,13 @@ public class UserInfo {
 
     private String userID;
     private String userPassword;
+    private String userPaymentPassword;
     private String userName;
     private String userEmail;
     private int userDutchMoney;
-    private boolean userState;          // 0 : 결제 진행x  , 1 : 결제 진행중
+    private int userState;          // 0 : 결제 진행x  , 1 : 결제 진행중
     private String userQRCode;
+    private String userPushID;
 
     private UserInfo(){
 
@@ -22,9 +24,10 @@ public class UserInfo {
         return UserInfoHolder.ourInstance;
     }
 
-    public void setUserInfo(String userID, String userPassword, String userName, String userEmail, int userDutchMoney , boolean userState) {
+    public void setUserInfo(String userID, String userPassword, String userPaymentPassword, String userName, String userEmail, int userDutchMoney , int userState) {
         this.userID = userID;
         this.userPassword = userPassword;
+        this.userPaymentPassword = userPaymentPassword;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userDutchMoney = userDutchMoney;
@@ -45,6 +48,14 @@ public class UserInfo {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public String getUserPaymentPassword() {
+        return userPaymentPassword;
+    }
+
+    public void setUserPaymentPassword(String userPaymentPassword) {
+        this.userPaymentPassword = userPaymentPassword;
     }
 
     public String getUserName() {
@@ -71,11 +82,11 @@ public class UserInfo {
         this.userDutchMoney = userDutchMoney;
     }
 
-    public boolean isUserState() {
+    public int getUserState() {
         return userState;
     }
 
-    public void setUserState(boolean userState) {
+    public void setUserState(int userState) {
         this.userState = userState;
     }
 
@@ -85,5 +96,13 @@ public class UserInfo {
 
     public void setUserQRCode(String userQRCode) {
         this.userQRCode = userQRCode;
+    }
+
+    public String getUserPushID() {
+        return userPushID;
+    }
+
+    public void setUserPushID(String userPushID) {
+        this.userPushID = userPushID;
     }
 }

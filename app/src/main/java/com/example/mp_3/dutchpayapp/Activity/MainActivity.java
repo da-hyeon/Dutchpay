@@ -11,24 +11,36 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.example.mp_3.dutchpayapp.Activity.PaymentActivity.PaymentQRScanActivity;
 import com.example.mp_3.dutchpayapp.Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity;
+import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmedDutchPayActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.QRCodeCreateActivity;
 import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter.TabPagerAdapter;
 import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
+import com.example.mp_3.dutchpayapp.Class.RequestClass.UserPushIDRegisterRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;
+import com.onesignal.OSSubscriptionObserver;
+import com.onesignal.OSSubscriptionStateChanges;
+import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity implements DataListener {
 
@@ -49,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         //뒤로가기
         backPressCloseHandler = new BackPressCloseHandler(this);
 
@@ -59,19 +73,16 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         pref = getSharedPreferences("QR_CODE", MODE_PRIVATE);
         userInfo.setUserQRCode(pref.getString("qrData", ""));
 
-
         //userID
         userID = getIntent().getExtras().getString("userID");
-        Log.d("userID : " , userID);
+        Log.d("userID : ", userID);
 
         //DB접근 -> user정보 get
         new BackGroundTask().execute();
 
 
-
         //상단 보유 더치머니 textview
-        MainTV = (TextView)findViewById(R.id.tv_main_money);
-
+        MainTV = (TextView) findViewById(R.id.tv_main_money);
 
         // Initializing the TabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -109,7 +120,52 @@ public class MainActivity extends AppCompatActivity implements DataListener {
             }
         });
 
+
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
+
+
+
+
     }
+    private OSSubscriptionObserver mSubscriptionObserver = new OSSubscriptionObserver() {
+
+        @Override
+        public void onOSSubscriptionChanged(OSSubscriptionStateChanges stateChanges) {
+            // The user is subscribed
+            // Either the user subscribed for the first time
+            // Or the user was subscribed -> unsubscribed -> subscribed
+            Log.d("getUserID : ", stateChanges.getTo().getUserId());
+
+            // Make a POST call to your server with the user ID
+            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        boolean success = jsonResponse.getBoolean("success");
+                        if (success) {
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("DB Error : ", "에러에러");
+                    }
+                }
+            };
+            UserPushIDRegisterRequest userPushIDRegisterRequest = new UserPushIDRegisterRequest(userInfo.getUserID(), stateChanges.getTo().getUserId(), responseListener);
+            RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+            queue.add(userPushIDRegisterRequest);
+
+        }
+    };
+
+//    @Override
+//    public void onOSSubscriptionChanged(OSSubscriptionStateChanges stateChanges) {
+//
+//
+//    }
 
     @Override
     public void dataListenerSet(String data) {
@@ -119,9 +175,16 @@ public class MainActivity extends AppCompatActivity implements DataListener {
     }
 
     @Override
-    public void ArrayListenerSet (ArrayList<String> tmp) {
+    public void PayLisstenerSet(String tmp) {
+        Intent intent = new Intent(this, PaymentQRScanActivity.class);
+        intent.putExtra("tmp", tmp);
+        startActivity(intent);
+    }
+
+    @Override
+    public void ArrayListenerSet(ArrayList<String> tmp) {
         Intent intent = new Intent(this, DetailPaymentHistoryActivity.class);
-        intent.putExtra("tmp",tmp);
+        intent.putExtra("tmp", tmp);
         startActivity(intent);
     }
 
@@ -135,12 +198,13 @@ public class MainActivity extends AppCompatActivity implements DataListener {
 
         String userPassword;
         String userName;
+        String userPaymentPassword;
         String userEmail;
         int userDutchMoney;
         int userState;
 
         UserInfo userInfo;
-        boolean userStateChecked;
+
         @Override
         protected void onPreExecute() {
             try {
@@ -192,24 +256,26 @@ public class MainActivity extends AppCompatActivity implements DataListener {
                     JSONObject object = jsonArray.getJSONObject(count);
                     userPassword = object.getString("userPassword");
                     userName = object.getString("userName");
+                    userPaymentPassword = object.getString("userPaymentPassword");
                     userEmail = object.getString("userEmail");
                     userDutchMoney = object.getInt("userDutchMoney");
                     userState = object.getInt("userState");
                     count++;
                 }
-                if(userState == 1)
-                    userStateChecked = true;
-                else
-                    userStateChecked = false;
 
-                userInfo.setUserInfo(userID, userPassword, userName, userEmail, userDutchMoney , userStateChecked);
-
-                MainTV.setText("더치머니 "+ userInfo.getUserDutchMoney() + "원 보유");
+                userInfo.setUserInfo(userID, userPassword, userPaymentPassword, userName, userEmail, userDutchMoney, userState);
+                OneSignal.addSubscriptionObserver(mSubscriptionObserver);
+                MainTV.setText("더치머니 " + String.format("%,d", userInfo.getUserDutchMoney()) + "원 보유");
 
                 //user의 결제상태가 진행중이라면 앱 내에 저장되어있는 QRCODE데이터를 Load하여 QRCodeCreateActivity로 전달.
-                if(userStateChecked) {
-                    Intent intent = new Intent(MainActivity.this , QRCodeCreateActivity.class);
+                if (userState == 1) {
+                    Intent intent = new Intent(MainActivity.this, QRCodeCreateActivity.class);
                     intent.putExtra("data", userInfo.getUserQRCode());
+                    startActivity(intent);
+                }
+                //host가 결제를 확정지었을 경우 진입.
+                else if (userState == 2) {
+                    Intent intent = new Intent(MainActivity.this, ConfirmedDutchPayActivity.class);
                     startActivity(intent);
                 }
             } catch (Exception e) {
@@ -222,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
     protected void onDestroy() {
         super.onDestroy();
         //user의 결제상태가 진행중이라면 앱 종료시 QRCODE의 data를 앱 내에 저장.
-        if(userInfo.isUserState()) {
+        if (userInfo.getUserState() == 1) {
 
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("qrData", userInfo.getUserQRCode());

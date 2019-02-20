@@ -23,8 +23,10 @@ import com.example.mp_3.dutchpayapp.Class.RequestClass.ParticipantInfoUpdateRequ
 import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCancel_DBDeleteRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
+import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -39,9 +41,12 @@ public class DutchGroupControlActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private ArrayList<ListViewItem_DutchStart> listViewItemList;
+    private ArrayList<String> userPushIDList;
+
     private DutchStartListViewAdapter adapter;
     private ListView list;
     private TextView tv_totalCost;
+
 
     UserInfo userInfo;
 
@@ -53,11 +58,13 @@ public class DutchGroupControlActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.tv_memberCount);
         userInfo = UserInfo.getInstance();
 
+        userPushIDList = new ArrayList();
         listViewItemList = new ArrayList<>();
+
         list = (ListView) findViewById(R.id.lv_dutch_host);
         tv_totalCost = (TextView) findViewById(R.id.tv_totalCost);
 
-        new BackGroundTask().execute();
+        new BackGroundTask_ParticipantUserList().execute();
 
         Button next = (Button) findViewById(R.id.btn_next_host);
         next.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +85,16 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                                                 boolean success = jsonResponse.getBoolean("success");
                                                 if (success) {
 
+                                                    for(int j  = 0; j < userPushIDList.size(); j++ ) {
+                                                        try {
+                                                            OneSignal.postNotification(new JSONObject("{'contents': {'en':'금액이 확정되었습니다. \n 결제를 진행해주세요.'}, 'include_player_ids': ['" + userPushIDList.get(j) + "']}"), null);
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+
+                                                    Intent intent = new Intent(DutchGroupControlActivity.this, ConfirmedDutchPayActivity.class);
+                                                    startActivity(intent);
                                                 }
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -90,8 +107,7 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                                     queue.add(participantInfoUpdateRequest);
                                     Log.d(listViewItemList.get(i).getUserID() + "의 AssignedAmount : " , listViewItemList.get(i).getAssignedAmount()+"");
                                 }
-                                Intent intent = new Intent(DutchGroupControlActivity.this, ConfirmedDutchPayActivity.class);
-                                startActivity(intent);
+
                             }
                         })
                         .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -107,14 +123,13 @@ public class DutchGroupControlActivity extends AppCompatActivity {
         });
     }
 
-    private class BackGroundTask extends AsyncTask<Void, Void, String> {
+    private class BackGroundTask_ParticipantUserList extends AsyncTask<Void, Void, String> {
         String target;
 
         String hostID;
         String userID;
         int Amount;
         int assignedAmount;
-        int directInputAmount;
         int prePaymentCheck;
 
 
@@ -201,10 +216,73 @@ public class DutchGroupControlActivity extends AppCompatActivity {
                 adapter = new DutchStartListViewAdapter(getApplicationContext(), listViewItemList, count , Amount);
                 list.setAdapter(adapter);
 
+                new BackGroundTask_UserPushID().execute();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private class BackGroundTask_UserPushID extends AsyncTask<Void, Void, String> {
+
+        private String target;
+
+        private String userPushID;
+
+        @Override
+        protected void onPreExecute() {
+            try {
+                target = "http://kjg123kg.cafe24.com/DutchPay_UserPushIDRequest.php?userID=" + URLEncoder.encode(userInfo.getUserID(), "UTF-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL(target);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((temp = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(temp + "\n");
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return stringBuilder.toString().trim();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        public void onPostExecute(String result) {
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray jsonArray = jsonObject.getJSONArray("response");
+                int count = 0;
+
+                while (count < jsonArray.length()) {
+                    JSONObject object = jsonArray.getJSONObject(count);
+                    userPushID = object.getString("userPushID");
+                    userPushIDList.add(userPushID);
+                    count++;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

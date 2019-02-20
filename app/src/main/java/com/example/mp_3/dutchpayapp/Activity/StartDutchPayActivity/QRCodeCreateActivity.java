@@ -2,6 +2,7 @@ package com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.support.v7.app.AlertDialog;
@@ -46,6 +47,8 @@ public class QRCodeCreateActivity extends AppCompatActivity {
 
     private BackPressCloseHandler backPressCloseHandler;
 
+    private SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,11 @@ public class QRCodeCreateActivity extends AppCompatActivity {
         } catch (WriterException e) {
             Log.v(TAG, e.toString());
         }
+        pref = getSharedPreferences("hostID", MODE_PRIVATE);
+        //QR코드 Create는 host만 가능하기떄문.
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("hostID", "");
+        editor.commit();
 
         //취소하기
         QR_Cancel = (Button) findViewById(R.id.QR_Cancel);
@@ -99,7 +107,7 @@ public class QRCodeCreateActivity extends AppCompatActivity {
                                             JSONObject jsonResponse = new JSONObject(response);
                                             boolean success = jsonResponse.getBoolean("success");
                                             if (success) {
-                                                userInfo.setUserState(false);
+                                                userInfo.setUserState(0);
                                                 finish();
                                             }
                                         } catch (Exception e) {
@@ -141,7 +149,7 @@ public class QRCodeCreateActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         //Activity종료시 취소버튼없이 종료했고 , user가 결제상태가 진행중이라면 앱을 다시 시작했을떄 user에게 QR코드를 보여줄 필요가 있음.
-        if (userInfo.isUserState()) {
+        if (userInfo.getUserState() == 1) {
             //따라서 현재 QR코드의 Data를 userInfo에 저장
             userInfo.setUserQRCode(qrKey + "," + amount);
         }

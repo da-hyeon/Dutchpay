@@ -1,5 +1,6 @@
 package com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,8 +14,10 @@ import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_DutchStart;
 import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_DutchStartConfirmed;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
+import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -48,22 +51,37 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.lv_dutch_host);
         tv_totalCost = (TextView) findViewById(R.id.tv_totalCost);
 
+
+
         new BackGroundTask().execute();
+
+
+
     }
     private class BackGroundTask extends AsyncTask<Void, Void, String> {
-        String target;
+        private String target;
 
-        String hostID;
-        String userID;
-        int Amount;
-        int assignedAmount;
-        int prePaymentCheck;
-
-
+        private String hostID;
+        private String userID;
+        private int Amount;
+        private int assignedAmount;
+        private int prePaymentCheck;
+        private SharedPreferences pref;
+        private String targetHostID;
         @Override
         protected void onPreExecute() {
             try {
-                target = "http://kjg123kg.cafe24.com/DutchPay_JoinListSelect.php?userID=" + URLEncoder.encode(userInfo.getUserID(), "UTF-8");
+                pref = getSharedPreferences("hostID", MODE_PRIVATE);
+                targetHostID = pref.getString("hostID", "");
+                //접속한 사람이 호스트일경우
+
+                if(targetHostID.equals(""))
+                      target = "http://kjg123kg.cafe24.com/DutchPay_JoinListSelect.php?userID=" + URLEncoder.encode(userInfo.getUserID(), "UTF-8");
+                else {
+                    target = "http://kjg123kg.cafe24.com/DutchPay_JoinListSelect.php?userID=" + URLEncoder.encode(targetHostID, "UTF-8");
+                }
+                //접속한 사람이 호스트가 아닐경우
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

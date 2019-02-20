@@ -40,7 +40,7 @@ public class ViewMoreFragment extends Fragment {
         password.setText("당신의 비밀번호는 "+ userInfo.getUserPassword() +" 입니다.");
         email.setText("당신의 이메일은 "+ userInfo.getUserName() +" 입니다.");
         name.setText("당신의 이름은 "+ userInfo.getUserEmail() +" 입니다.");
-        money.setText("당신이 보유한 더치머니는 "+ userInfo.getUserDutchMoney() +" 원 입니다.");
+        money.setText("당신이 보유한 더치머니는 "+ String.format("%,d", userInfo.getUserDutchMoney()) +" 원 입니다.");
 
         return view;
     }

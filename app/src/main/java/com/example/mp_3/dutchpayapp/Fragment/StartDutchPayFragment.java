@@ -234,7 +234,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //mmoney값 전달
-                dataListener.dataListenerSet(money);
+                //dataListener.dataListenerSet(money);
             }
         });
 
