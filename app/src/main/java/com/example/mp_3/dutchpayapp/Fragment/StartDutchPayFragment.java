@@ -87,7 +87,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 if(money.length() > 0 ) {
                     money = money + "0";
-                    tv.setText(money + "원");
+                    tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
                 }
             }
         });
@@ -96,7 +96,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "1";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         btn2 = (Button)view.findViewById(R.id.btn_2);
@@ -104,7 +104,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "2";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         btn3 = (Button)view.findViewById(R.id.btn_3);
@@ -112,7 +112,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "3";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         btn4 = (Button)view.findViewById(R.id.btn_4);
@@ -120,7 +120,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "4";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         btn5 = (Button)view.findViewById(R.id.btn_5);
@@ -128,7 +128,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "5";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         btn6 = (Button)view.findViewById(R.id.btn_6);
@@ -136,7 +136,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "6";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         btn7 = (Button)view.findViewById(R.id.btn_7);
@@ -144,7 +144,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "7";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         btn8 = (Button)view.findViewById(R.id.btn_8);
@@ -152,7 +152,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "8";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         btn9 = (Button)view.findViewById(R.id.btn_9);
@@ -160,7 +160,7 @@ public class StartDutchPayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 money = money + "9";
-                tv.setText(money+"원");
+                tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
             }
         });
         back = (Button)view.findViewById(R.id.btn_back);
@@ -176,7 +176,7 @@ public class StartDutchPayFragment extends Fragment {
                 if(money.equals("")){
                     tv.setText("0원");
                 } else {
-                    tv.setText(money + "원");
+                    tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
                 }
             }
         });

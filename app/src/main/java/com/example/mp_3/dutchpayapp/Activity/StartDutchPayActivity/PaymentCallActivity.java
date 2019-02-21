@@ -44,6 +44,8 @@ public class PaymentCallActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //결제 비밀번호 확인 창 이동
                 Intent intent = new Intent(getApplicationContext(),PaymentPasswordCheckActivity.class);
+                intent.putExtra("assignedAmount" , assignedAmount);
+                intent.putExtra("totalParticipantCount", totalParticipantCount);
                 startActivity(intent);
                 finish();
             }
@@ -57,7 +59,5 @@ public class PaymentCallActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 }

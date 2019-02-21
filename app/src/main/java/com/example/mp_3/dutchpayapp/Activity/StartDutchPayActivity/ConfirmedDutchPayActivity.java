@@ -33,6 +33,8 @@ import java.util.ArrayList;
 
 public class ConfirmedDutchPayActivity extends AppCompatActivity {
 
+    public static ConfirmedDutchPayActivity _ConfirmedDutchPayActivity;
+
     private Toolbar toolbar;
 
     private ArrayList<ListViewItem_DutchStartConfirmed> listViewItemList;
@@ -61,6 +63,8 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
         pref = getSharedPreferences("hostID", MODE_PRIVATE);
         targetHostID = pref.getString("hostID", "");
 
+        _ConfirmedDutchPayActivity = ConfirmedDutchPayActivity.this;
+
         toolbar = findViewById(R.id.tv_memberCount);
         userInfo = UserInfo.getInstance();
 
@@ -72,6 +76,7 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
 
         new BackGroundTask().execute();
 
+        //결제정보로 이동
         btn_next_host.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,11 +93,19 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
             }
         });
 
+        //뒤로가기
         btn_before_host = (Button) findViewById(R.id.btn_before_host);
         btn_before_host.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //접속한 사람이 호스트일경우
+                if(targetHostID.equals("")){
+
+                }
+                //접속한 사람이 참여자일경우
+                else {
+                    finish();
+                }
             }
         });
     }
@@ -110,8 +123,6 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             try {
-
-
                 //접속한 사람이 호스트일경우
                 if(targetHostID.equals(""))
                       target = "http://kjg123kg.cafe24.com/DutchPay_JoinListSelect.php?userID=" + URLEncoder.encode(userInfo.getUserID(), "UTF-8");

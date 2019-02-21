@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "236713679640-r4blucuavn65il1pp0sg7d9fk3uk9nm5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mp_3.dutchpayapp",
+            "certificate_hash": "f8e2db3baf34d9054d019083bb8bce13b625cf19"
+          }
+        },
+        {
           "client_id": "236713679640-o2b7dv9gt4gurq5r7n3267vbjhlk90j0.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236713679640-o2b7dv9gt4gurq5r7n3267vbjhlk90j0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

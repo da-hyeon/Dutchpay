@@ -1,11 +1,13 @@
 package com.example.mp_3.dutchpayapp.Activity;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
     private TextView MainTV;
 
     private Button btn_Logout;
-
+    private Button btn_mainTabMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,16 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         tabLayout.addTab(tabLayout.newTab().setText("더보기"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+
+        btn_mainTabMenu = (Button) findViewById(R.id.btn_mainTabMenu);
+        btn_mainTabMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
         // Initializing ViewPager
         viewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -114,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
@@ -288,11 +301,14 @@ public class MainActivity extends AppCompatActivity implements DataListener {
                     Intent intent = new Intent(MainActivity.this, QRCodeCreateActivity.class);
                     intent.putExtra("data", userInfo.getUserQRCode());
                     startActivity(intent);
+                    finish();
                 }
+
                 //host가 결제를 확정지었을 경우 진입.
                 else if (userState == 2) {
                     Intent intent = new Intent(MainActivity.this, ConfirmedDutchPayActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
