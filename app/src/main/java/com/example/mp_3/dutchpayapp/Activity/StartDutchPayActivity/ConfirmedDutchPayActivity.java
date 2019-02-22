@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.mp_3.dutchpayapp.Class.Adapter.ListViewAdapter.DutchStartConfirmedListViewAdapter;
 import com.example.mp_3.dutchpayapp.Class.Adapter.ListViewAdapter.DutchStartListViewAdapter;
+import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
 import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_DutchStart;
 import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_DutchStartConfirmed;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
@@ -34,6 +35,8 @@ import java.util.ArrayList;
 public class ConfirmedDutchPayActivity extends AppCompatActivity {
 
     public static ConfirmedDutchPayActivity _ConfirmedDutchPayActivity;
+
+    private BackPressCloseHandler backPressCloseHandler;
 
     private Toolbar toolbar;
 
@@ -59,6 +62,8 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmed_dutch_pay);
+        //뒤로가기
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
         pref = getSharedPreferences("hostID", MODE_PRIVATE);
         targetHostID = pref.getString("hostID", "");
@@ -108,6 +113,11 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 
     private class BackGroundTask extends AsyncTask<Void, Void, String> {

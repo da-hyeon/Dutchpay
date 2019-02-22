@@ -167,6 +167,16 @@ public class JoinDutchPayFragment extends Fragment {
                                                             }).setCancelable(false)
                                                             .create();
                                                     dialog.show();
+                                                } else {
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                    AlertDialog dialog = builder.setMessage("이미 스캔하셨습니다.")
+                                                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                }
+                                                            }).setCancelable(false)
+                                                            .create();
+                                                    dialog.show();
                                                 }
                                             } catch (Exception e) {
                                                 e.printStackTrace();

@@ -1,0 +1,5 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('folding-cell-1.2.2.aar'))
+dependencies {
+    implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
+}

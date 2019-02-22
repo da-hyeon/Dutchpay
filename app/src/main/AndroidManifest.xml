@@ -24,9 +24,9 @@
              Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
         -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
+        <!--<meta-data-->
+            <!--android:name="com.google.firebase.messaging.default_notification_color"-->
+            <!--android:resource="@color/colorAccent" />-->
 
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
@@ -46,7 +46,7 @@
         <activity android:name=".Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity" />
         <activity android:name=".Activity.StartDutchPayActivity.DutchGroupControlActivity" />
         <activity android:name=".Activity.StartDutchPayActivity.ConfirmedDutchPayActivity" />
-        <activity android:name=".Activity.PaymentActivity.PaymentQRCodeCreateActivity" />
+        <activity android:name=".Activity.StartDutchPayActivity.PaymentQRCodeCreateActivity" />
         <activity android:name=".Activity.PaymentActivity.PaymentCheckActivity" />
         <activity android:name=".Activity.PaymentActivity.PaymentPasswordCheckActivity" />
         <activity android:name=".Activity.PaymentActivity.PaymentQRScanActivity" />

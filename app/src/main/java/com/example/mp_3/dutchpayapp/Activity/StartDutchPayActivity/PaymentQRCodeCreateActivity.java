@@ -1,5 +1,6 @@
-package com.example.mp_3.dutchpayapp.Activity.PaymentActivity;
+package com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -11,9 +12,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.example.mp_3.dutchpayapp.Activity.MainActivity;
+import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
+import com.example.mp_3.dutchpayapp.Class.RequestClass.UserStateChangeRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
 import com.google.zxing.WriterException;
+
+import org.json.JSONObject;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -30,6 +39,8 @@ public class PaymentQRCodeCreateActivity extends AppCompatActivity {
     private String amount;
 
     private Button ToBarCorde;
+    private Button btn_successPayment;
+    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +51,10 @@ public class PaymentQRCodeCreateActivity extends AppCompatActivity {
         userInfo = UserInfo.getInstance();
         qrKey = userInfo.getUserID();
 
+        backPressCloseHandler = new BackPressCloseHandler(this);
+
         //--이전 액티비티에서 넘긴 결제 금액 받기
-        amount = getIntent().getExtras().getString("data");
+        //amount = getIntent().getExtras().getString("data");
 
         WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
@@ -76,15 +89,45 @@ public class PaymentQRCodeCreateActivity extends AppCompatActivity {
 
             }
         });
+
+        btn_successPayment = (Button)findViewById(R.id.btn_successPayment);
+        btn_successPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //응답받기
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+
+                            if (success) {
+                                Intent intent = new Intent(PaymentQRCodeCreateActivity.this, MainActivity.class);
+                                intent.putExtra("userID", userInfo.getUserID());
+                                startActivity(intent);
+                                finish();
+                            } else{
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d("DB Error : ", "에러에러");
+                        }
+                    }
+                };
+                UserStateChangeRequest userStateChangeRequest = new UserStateChangeRequest(userInfo.getUserID(), userInfo.getUserDutchMoney()+"" ,"0" , responseListener);
+                RequestQueue queue = Volley.newRequestQueue(PaymentQRCodeCreateActivity.this);
+                queue.add(userStateChangeRequest);
+
+
+
+            }
+        });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //Activity종료시 취소버튼없이 종료했고 , user가 결제상태가 진행중이라면 앱을 다시 시작했을떄 user에게 QR코드를 보여줄 필요가 있음.
-        if(userInfo.getUserState() == 1){
-            //따라서 현재 QR코드의 Data를 userInfo에 저장
-            userInfo.setUserQRCode(qrKey+ "," + amount);
-        }
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 }

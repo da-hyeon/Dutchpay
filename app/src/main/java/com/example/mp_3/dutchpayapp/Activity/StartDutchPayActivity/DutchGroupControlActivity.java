@@ -50,10 +50,14 @@ public class DutchGroupControlActivity extends AppCompatActivity {
     private Button btn_before_host;
     UserInfo userInfo;
 
+    private QRCodeCreateActivity _QRCodeCreateActivity;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dutch_group_control);
+
+        _QRCodeCreateActivity = QRCodeCreateActivity._QRCodeCreateActivity;
 
         toolbar = findViewById(R.id.tv_memberCount);
         userInfo = UserInfo.getInstance();
@@ -109,6 +113,8 @@ public class DutchGroupControlActivity extends AppCompatActivity {
 
                                 Intent intent = new Intent(DutchGroupControlActivity.this, ConfirmedDutchPayActivity.class);
                                 startActivity(intent);
+                                _QRCodeCreateActivity.finish();
+                                finish();
 
                             }
                         })

@@ -17,10 +17,14 @@ public class PaymentCallActivity extends AppCompatActivity {
     private String totalParticipantCount;
     private String totalAmount;
     private String assignedAmount;
+
+    public static PaymentCallActivity _PaymentCallActivity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_call);
+
+        _PaymentCallActivity = PaymentCallActivity.this;
 
         TextView tv_host_name = (TextView)findViewById(R.id.tv_host_name);
         TextView tv_member_num = (TextView)findViewById(R.id.tv_member_num);
@@ -47,7 +51,7 @@ public class PaymentCallActivity extends AppCompatActivity {
                 intent.putExtra("assignedAmount" , assignedAmount);
                 intent.putExtra("totalParticipantCount", totalParticipantCount);
                 startActivity(intent);
-                finish();
+
             }
         });
 

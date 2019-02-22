@@ -13,10 +13,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.example.mp_3.dutchpayapp.Activity.LoginActivity;
 import com.example.mp_3.dutchpayapp.Activity.MainActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmationPaymentActivity;
+import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmedDutchPayActivity;
+import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.PaymentCallActivity;
+import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.QRCodeCreateActivity;
 import com.example.mp_3.dutchpayapp.Class.FireBaseClass.FirebasePost;
+import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCancel_DBDeleteRequest;
+import com.example.mp_3.dutchpayapp.Class.RequestClass.UserStateChangeRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
 import com.google.firebase.database.ChildEventListener;
@@ -26,6 +34,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,13 +57,22 @@ public class PaymentPasswordCheckActivity extends AppCompatActivity {
     private String assignedAmount;
     private int currentTotalParticipantCount;
 
-
     private ArrayList<FirebasePost> firebasePostArrayList;
+
+    private PaymentCallActivity _PaymentCallActivity;
+    private ConfirmedDutchPayActivity _ConfirmedDutchPayActivity;
+
+    private UserInfo userInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_password_check);
+
+        userInfo = UserInfo.getInstance();
+
+        _PaymentCallActivity = PaymentCallActivity._PaymentCallActivity;
+        _ConfirmedDutchPayActivity = ConfirmedDutchPayActivity._ConfirmedDutchPayActivity;
 
         pref = getSharedPreferences("hostID", MODE_PRIVATE);
         targetHostID = pref.getString("hostID", "");
@@ -201,12 +220,36 @@ public class PaymentPasswordCheckActivity extends AppCompatActivity {
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    userinfo.setUserDutchMoney(userInfo.getUserDutchMoney() - Integer.parseInt(assignedAmount));
+                                    //응답받기
+                                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            try {
+                                                JSONObject jsonResponse = new JSONObject(response);
+                                                boolean success = jsonResponse.getBoolean("success");
 
-                                    postFirebaseDatabase();
+                                                if (success) {
+                                                    postFirebaseDatabase();
 
-                                    Intent intent = new Intent(PaymentPasswordCheckActivity.this, ConfirmationPaymentActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                                    Intent intent = new Intent(PaymentPasswordCheckActivity.this, ConfirmationPaymentActivity.class);
+                                                    startActivity(intent);
+                                                    _ConfirmedDutchPayActivity.finish();
+                                                    _PaymentCallActivity.finish();
+                                                    finish();
+                                                } else{
+
+                                                }
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                Log.d("DB Error : ", "에러에러");
+                                            }
+                                        }
+                                    };
+                                    UserStateChangeRequest userStateChangeRequest = new UserStateChangeRequest(userInfo.getUserID(), userinfo.getUserDutchMoney()+"", "3" , responseListener);
+                                    RequestQueue queue = Volley.newRequestQueue(PaymentPasswordCheckActivity.this);
+                                    queue.add(userStateChangeRequest);
+
 
                                     //메인으로 이동
 //                                    Intent intent = new Intent(PaymentPasswordCheckActivity.this, MainActivity.class);

@@ -16,6 +16,7 @@ import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_TotalHistor
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;
+import com.ramotion.foldingcell.FoldingCell;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,18 +64,21 @@ public class DetailPaymentHistoryFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListViewItem_TotalHistory item = (ListViewItem_TotalHistory) parent.getItemAtPosition(position);
 
+                ((FoldingCell) view).toggle(false);
 
-                //프래그먼트 전환
-                ArrayList<String> strings = new ArrayList<String>();
-                strings.add(item.getDate());
-                strings.add(item.getCompanyName());
-                strings.add(item.getParticipantName());
-                strings.add(item.getAmount() + "");
-
-                //액티비티 전환
-                dataListener.ArrayListenerSet(strings);
+//                ListViewItem_TotalHistory item = (ListViewItem_TotalHistory) parent.getItemAtPosition(position);
+//
+//
+//                //프래그먼트 전환
+//                ArrayList<String> strings = new ArrayList<String>();
+//                strings.add(item.getDate());
+//                strings.add(item.getCompanyName());
+//                strings.add(item.getParticipantName());
+//                strings.add(item.getAmount() + "");
+//
+//                //액티비티 전환
+//                dataListener.ArrayListenerSet(strings);
 
             }
         });
@@ -149,13 +153,11 @@ public class DetailPaymentHistoryFragment extends Fragment {
                     participantName = object.getString("participantName");
                     Amount = object.getInt("Amount");
 
-                    listViewItem_totalHistories.add(new ListViewItem_TotalHistory(historyID, date, companyName, participantName, Amount));
+                    listViewItem_totalHistories.add(new ListViewItem_TotalHistory(String.format("%,d", Amount)+"원", String.format("%,d", Amount)+"원", "W 79th St, NY, 10024", "W 139th St, NY, 10030", 3, date.substring(0,10), "05:10 PM"));
                     count++;
                 }
 
-
-
-                totalHistoryListViewAdapter = new TotalHistoryListViewAdapter(listViewItem_totalHistories);
+                totalHistoryListViewAdapter = new TotalHistoryListViewAdapter(getContext(), listViewItem_totalHistories);
                 list.setAdapter(totalHistoryListViewAdapter);
 
             } catch (Exception e) {

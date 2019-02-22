@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,14 +19,20 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.mp_3.dutchpayapp.Activity.PaymentActivity.PaymentQRScanActivity;
 import com.example.mp_3.dutchpayapp.Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity;
+import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmationPaymentActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmedDutchPayActivity;
+import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.PaymentQRCodeCreateActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.QRCodeCreateActivity;
 import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter.TabPagerAdapter;
 import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
+import com.example.mp_3.dutchpayapp.Class.NotificationReceivedHandler;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.UserPushIDRegisterRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;
+import com.onesignal.OSNotification;
+import com.onesignal.OSNotificationAction;
+import com.onesignal.OSNotificationOpenResult;
 import com.onesignal.OSSubscriptionObserver;
 import com.onesignal.OSSubscriptionStateChanges;
 import com.onesignal.OneSignal;
@@ -60,14 +65,18 @@ public class MainActivity extends AppCompatActivity implements DataListener {
     private Button btn_Logout;
     private Button btn_mainTabMenu;
 
+    public static MainActivity _MainActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        _MainActivity = MainActivity.this;
 
         OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .setNotificationReceivedHandler(new NotificationReceivedHandler(getApplicationContext()))
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
 
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
 
         //userID
         userID = getIntent().getExtras().getString("userID");
-        Log.d("userID : ", userID);
+        //Log.d("userID : ", userID);
 
         //DB접근 -> user정보 get
         new BackGroundTask().execute();
@@ -97,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("더치페이 시작하기"));
         tabLayout.addTab(tabLayout.newTab().setText("더치페이 참여하기"));
-        tabLayout.addTab(tabLayout.newTab().setText("단독결제 시작하기"));
+        tabLayout.addTab(tabLayout.newTab().setText("돈보내기"));
         tabLayout.addTab(tabLayout.newTab().setText("이용내역"));
         tabLayout.addTab(tabLayout.newTab().setText("더보기"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -154,8 +163,6 @@ public class MainActivity extends AppCompatActivity implements DataListener {
                 finish();
             }
         });
-
-
     }
 
     private OSSubscriptionObserver mSubscriptionObserver = new OSSubscriptionObserver() {
@@ -217,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         startActivity(intent);
     }
 
+    @Override
     public void onBackPressed() {
         backPressCloseHandler.onBackPressed();
     }
@@ -310,6 +318,18 @@ public class MainActivity extends AppCompatActivity implements DataListener {
                     startActivity(intent);
                     finish();
                 }
+                //user가 결제를 완료했을때 결제현황Activity진입
+                else if( userState == 3){
+                    Intent intent = new Intent(MainActivity.this, ConfirmationPaymentActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                else if( userState == 4){
+                    Intent intent = new Intent(MainActivity.this, PaymentQRCodeCreateActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -317,11 +337,10 @@ public class MainActivity extends AppCompatActivity implements DataListener {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         //user의 결제상태가 진행중이라면 앱 종료시 QRCODE의 data를 앱 내에 저장.
         if (userInfo.getUserState() == 1) {
-
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("qrData", userInfo.getUserQRCode());
             editor.commit();

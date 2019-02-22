@@ -51,10 +51,14 @@ public class QRCodeCreateActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
 
+    public static QRCodeCreateActivity _QRCodeCreateActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode_create);
+
+        _QRCodeCreateActivity = QRCodeCreateActivity.this;
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
@@ -159,8 +163,8 @@ public class QRCodeCreateActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         //Activity종료시 취소버튼없이 종료했고 , user가 결제상태가 진행중이라면 앱을 다시 시작했을떄 user에게 QR코드를 보여줄 필요가 있음.
         if (userInfo.getUserState() == 1) {
             //따라서 현재 QR코드의 Data를 userInfo에 저장

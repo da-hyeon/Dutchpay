@@ -18,12 +18,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.mp_3.dutchpayapp.Activity.MainActivity;
 import com.example.mp_3.dutchpayapp.Activity.PaymentActivity.PaymentPasswordCheckActivity;
 import com.example.mp_3.dutchpayapp.Class.Adapter.ListViewAdapter.ConfirmationPaymentListViewAdapter;
-import com.example.mp_3.dutchpayapp.Class.Adapter.ListViewAdapter.DutchStartConfirmedListViewAdapter;
 import com.example.mp_3.dutchpayapp.Class.FireBaseClass.FirebasePost;
+import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
 import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_ConfirmationPayment;
-import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_DutchStartConfirmed;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.PaymentCompleted_DBDeleteRequest;
-import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCancel_DBDeleteRequest;
+import com.example.mp_3.dutchpayapp.Class.RequestClass.UserStateChangeRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +49,8 @@ public class ConfirmationPaymentActivity extends AppCompatActivity {
 
     private ArrayList<ListViewItem_ConfirmationPayment> listViewItemList;
 
+    private BackPressCloseHandler backPressCloseHandler;
+
     private SharedPreferences pref;
     private String targetHostID;
 
@@ -64,10 +65,14 @@ public class ConfirmationPaymentActivity extends AppCompatActivity {
 
     private ConfirmationPaymentListViewAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation_payment);
+
+        //뒤로가기
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
         pref = getSharedPreferences("hostID", MODE_PRIVATE);
         targetHostID = pref.getString("hostID", "");
@@ -84,113 +89,9 @@ public class ConfirmationPaymentActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.lv_participants);
         tv_participantsCount = (TextView) findViewById(R.id.tv_participantsCount);
 
-        tv_participantsCount.setText("결제 인원 : " + currentTotalParticipantCount + " / " + totalParticipantCount);
+
 
         new BackGroundTask().execute();
-
-
-        if (targetHostID.equals("")) {
-            mPostReference.child(userInfo.getUserID()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    currentTotalParticipantCount = (int) dataSnapshot.getChildrenCount();
-
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        FirebasePost get = postSnapshot.getValue(FirebasePost.class);
-                        for (int i = 0; i < listViewItemList.size(); i++) {
-                            if (listViewItemList.get(i).getUserID().equals(get.userID)) {
-                                listViewItemList.get(i).setPrePaymentCheck(true);
-                                if(!totalParticipantCount.equals("")) {
-                                    tv_participantsCount.setText("결제 인원 : " + currentTotalParticipantCount + " / " + totalParticipantCount);
-                                }
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-
-                    //모두 결제 완료시
-                    if (!totalParticipantCount.equals("")) {
-                        if (currentTotalParticipantCount == Integer.parseInt(totalParticipantCount)) {
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmationPaymentActivity.this);
-                            AlertDialog dialog = builder.setTitle("결제 완료")
-                                    .setMessage("참여인원이 전부 결제하였습니다. 결제 QR코드를 출력합니다.")
-                                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            DBDeleteRequest();
-                                        }
-                                    }).setCancelable(false)
-                                    .create();
-                            dialog.show();
-
-
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        } else {
-            mPostReference.child(targetHostID).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-                    currentTotalParticipantCount = (int) dataSnapshot.getChildrenCount();
-
-
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        FirebasePost get = postSnapshot.getValue(FirebasePost.class);
-                        for (int i = 0; i < listViewItemList.size(); i++) {
-                            if (listViewItemList.get(i).getUserID().equals(get.userID)) {
-                                listViewItemList.get(i).setPrePaymentCheck(true);
-                                if (!totalParticipantCount.equals("")) {
-                                    tv_participantsCount.setText("결제 인원 : " + currentTotalParticipantCount + " / " + totalParticipantCount);
-                                }
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-                    if (totalParticipantCount != null) {
-                        if (!totalParticipantCount.equals("")) {
-                            if (currentTotalParticipantCount == Integer.parseInt(totalParticipantCount)) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmationPaymentActivity.this);
-                                AlertDialog dialog = builder.setTitle("결제 완료")
-                                        .setMessage("참여인원이 전부 결제하였습니다. 결제 QR코드를 출력합니다.")
-                                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                DBDeleteRequest();
-
-                                                ConfirmedDutchPayActivity _ConfirmedDutchPayActivity = (ConfirmedDutchPayActivity) ConfirmedDutchPayActivity._ConfirmedDutchPayActivity;
-
-                                                //postFirebaseDatabase();
-
-                                                //메인으로 이동
-                                                Intent intent = new Intent(ConfirmationPaymentActivity.this, MainActivity.class);
-                                                intent.putExtra("userID", userInfo.getUserID());
-                                                startActivity(intent);
-                                                _ConfirmedDutchPayActivity.finish();
-                                                finish();
-                                            }
-                                        }).setCancelable(false)
-                                        .create();
-                                dialog.show();
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
     }
 
     private void DBDeleteRequest(){
@@ -216,6 +117,11 @@ public class ConfirmationPaymentActivity extends AppCompatActivity {
         PaymentCompleted_DBDeleteRequest paymentCompleted_dbDeleteRequest = new PaymentCompleted_DBDeleteRequest(userInfo.getUserID(), responseListener);
         RequestQueue queue = Volley.newRequestQueue(ConfirmationPaymentActivity.this);
         queue.add(paymentCompleted_dbDeleteRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 
     private class BackGroundTask extends AsyncTask<Void, Void, String> {
@@ -292,10 +198,141 @@ public class ConfirmationPaymentActivity extends AppCompatActivity {
                 }
 
                 toolbar.setTitle("모집된 멤버 ( " + count + "명 )");
+                tv_participantsCount.setText("결제 인원 : " + currentTotalParticipantCount + " / " + count);
                 totalAmount = Amount + "";
                 totalParticipantCount = count + "";
                 adapter = new ConfirmationPaymentListViewAdapter(listViewItemList);
                 list.setAdapter(adapter);
+
+                //호스트일때
+                if (targetHostID.equals("")) {
+                    mPostReference.child(userInfo.getUserID()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            currentTotalParticipantCount = (int) dataSnapshot.getChildrenCount();
+
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                FirebasePost get = postSnapshot.getValue(FirebasePost.class);
+                                for (int i = 0; i < listViewItemList.size(); i++) {
+                                    if (listViewItemList.get(i).getUserID().equals(get.userID)) {
+                                        listViewItemList.get(i).setPrePaymentCheck(true);
+                                        if (!totalParticipantCount.equals("")) {
+                                            tv_participantsCount.setText("결제 인원 : " + currentTotalParticipantCount + " / " + totalParticipantCount);
+                                        }
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+
+                            //모두 결제 완료시
+                            if (totalParticipantCount != null && !ConfirmationPaymentActivity.this.isFinishing()) {
+                                if (!totalParticipantCount.equals("")) {
+                                    if (currentTotalParticipantCount == Integer.parseInt(totalParticipantCount)) {
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmationPaymentActivity.this);
+                                        AlertDialog dialog = builder.setTitle("결제 완료")
+                                                .setMessage("참여인원이 전부 결제하였습니다. 결제 QR코드를 출력합니다.")
+                                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        DBDeleteRequest();
+                                                        mPostReference.child(userInfo.getUserID()).removeValue();
+
+                                                        //응답받기
+                                                        Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                                            @Override
+                                                            public void onResponse(String response) {
+                                                                try {
+                                                                    JSONObject jsonResponse = new JSONObject(response);
+                                                                    boolean success = jsonResponse.getBoolean("success");
+
+                                                                    if (success) {
+                                                                        //PaymentQRCodeCreateActivity으로 이동
+                                                                        Intent intent = new Intent(ConfirmationPaymentActivity.this, PaymentQRCodeCreateActivity.class);
+                                                                        startActivity(intent);
+                                                                        finish();
+                                                                    } else{
+
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                    Log.d("DB Error : ", "에러에러");
+                                                                }
+                                                            }
+                                                        };
+                                                        UserStateChangeRequest userStateChangeRequest = new UserStateChangeRequest(userInfo.getUserID(), userInfo.getUserDutchMoney()+"", "4" , responseListener);
+                                                        RequestQueue queue = Volley.newRequestQueue(ConfirmationPaymentActivity.this);
+                                                        queue.add(userStateChangeRequest);
+                                                    }
+                                                }).setCancelable(false)
+                                                .create();
+                                        dialog.show();
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                } else {
+                    mPostReference.child(targetHostID).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                            currentTotalParticipantCount = (int) dataSnapshot.getChildrenCount();
+
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                FirebasePost get = postSnapshot.getValue(FirebasePost.class);
+                                for (int i = 0; i < listViewItemList.size(); i++) {
+                                    if (listViewItemList.get(i).getUserID().equals(get.userID)) {
+                                        listViewItemList.get(i).setPrePaymentCheck(true);
+                                        if (!totalParticipantCount.equals("")) {
+                                            tv_participantsCount.setText("결제 인원 : " + currentTotalParticipantCount + " / " + totalParticipantCount);
+                                        }
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+
+
+                            if (totalParticipantCount != null && !ConfirmationPaymentActivity.this.isFinishing()) {
+                                if (!totalParticipantCount.equals("")) {
+                                    if (currentTotalParticipantCount == Integer.parseInt(totalParticipantCount)) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmationPaymentActivity.this);
+                                        AlertDialog dialog = builder.setTitle("결제 완료")
+                                                .setMessage("참여인원이 전부 결제하였습니다. 결제 QR코드를 출력합니다.")
+                                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        DBDeleteRequest();
+
+                                                        //postFirebaseDatabase();
+
+                                                        //메인으로 이동
+                                                        Intent intent = new Intent(ConfirmationPaymentActivity.this, MainActivity.class);
+                                                        intent.putExtra("userID", userInfo.getUserID());
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                }).setCancelable(false)
+                                                .create();
+                                        dialog.show();
+                                    }
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
