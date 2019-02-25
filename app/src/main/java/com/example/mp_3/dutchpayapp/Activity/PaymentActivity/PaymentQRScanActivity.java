@@ -17,6 +17,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,7 +51,7 @@ public class PaymentQRScanActivity extends AppCompatActivity {
     private RelativeLayout layout_QRCodeStart;
     private RelativeLayout layout_QRCodeCamera;
 
-    private Button btn_QRCodeStart;
+    private ImageButton btn_QRCodeStart;
 
     //커스텀 필요 -> DB 수정 필요
 
@@ -83,7 +84,7 @@ public class PaymentQRScanActivity extends AppCompatActivity {
         layout_QRCodeStart = (RelativeLayout) findViewById(R.id.layout_QRCodeStart);
         layout_QRCodeCamera = (RelativeLayout) findViewById(R.id.layout_QRCodeCamera);
 
-        btn_QRCodeStart = (Button) findViewById(R.id.btn_QRCodeStart) ;
+        btn_QRCodeStart = (ImageButton) findViewById(R.id.btn_QRCodeStart) ;
 
         cameraPreview = (SurfaceView) findViewById(R.id.cameraPreview);
         txtResult = (TextView) findViewById(R.id.txtResult);
@@ -97,7 +98,7 @@ public class PaymentQRScanActivity extends AppCompatActivity {
                 .setRequestedPreviewSize(640, 480)
                 .build();
 
-        btn_QRCodeStart = (Button)findViewById(R.id.btn_QRCodeStart);
+        btn_QRCodeStart = (ImageButton)findViewById(R.id.btn_QRCodeStart);
         btn_QRCodeStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +154,7 @@ public class PaymentQRScanActivity extends AppCompatActivity {
                 });
             }
         });
-
+        MainActivity.customProgressDialog.dismiss();
     }
 
 }

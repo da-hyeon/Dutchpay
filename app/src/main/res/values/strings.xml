@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DutchpayApp</string>
+    <string name="app_name">더치페이</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="order_id_mock" translatable="false"># 1234–5678</string>

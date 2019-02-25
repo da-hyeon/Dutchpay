@@ -12,4 +12,9 @@ public interface DataListener {
     void PayLisstenerSet(String tmp);
     //SoloPay -> QRscan
 
+    void historyListenerSet();
+
+    void sendMoneyListenerSet(String tmp);
+
+    void logoutListenerSet();
 }

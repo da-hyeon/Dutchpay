@@ -1,18 +1,17 @@
-package com.example.mp_3.dutchpayapp.Fragment;
+package com.example.mp_3.dutchpayapp.Activity.ViewMoreActivity;
 
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
+import com.example.mp_3.dutchpayapp.Activity.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter.TabPagerAdapter_history;
 import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;
 
-public class PaymentHistoryFragment extends Fragment {
+public class PaymentHistoryActivity extends AppCompatActivity {
+
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -20,22 +19,22 @@ public class PaymentHistoryFragment extends Fragment {
     private DataListener dataListener;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_payment_history,null);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_payment_history);
 
         // Initializing the TabLayout
-        tabLayout = (TabLayout) view.findViewById(R.id.detail_tabLayout);
+        tabLayout = (TabLayout) findViewById(R.id.detail_tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("전체"));
         tabLayout.addTab(tabLayout.newTab().setText("임시"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // Initializing ViewPager
-        viewPager = (ViewPager) view.findViewById(R.id.detail_pager);
+        viewPager = (ViewPager) findViewById(R.id.detail_pager);
 
         // Creating TabPagerAdapter adapter
-        TabPagerAdapter_history pagerAdapter = new TabPagerAdapter_history(getChildFragmentManager(), tabLayout.getTabCount());
+        TabPagerAdapter_history pagerAdapter = new TabPagerAdapter_history(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -50,7 +49,6 @@ public class PaymentHistoryFragment extends Fragment {
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
-
             }
 
             @Override
@@ -58,10 +56,6 @@ public class PaymentHistoryFragment extends Fragment {
 
             }
         });
-
-
-
-        return view;
+        MainActivity.customProgressDialog.dismiss();
     }
-
 }

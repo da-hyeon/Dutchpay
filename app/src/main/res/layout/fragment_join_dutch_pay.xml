@@ -5,17 +5,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bgContent"
     tools:context=".Fragment.JoinDutchPayFragment">
 
     <RelativeLayout
         android:id="@+id/layout_QRCodeStart"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
+
+        <ImageButton
             android:id="@+id/btn_QRCodeStart"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="QR코드 스캔하기"/>
+            android:background="#00ff0000"
+            android:scaleType="centerInside"
+            android:src="@drawable/camera_vactor"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="QR코드를 스캔합니다."/>
     </RelativeLayout>
 
     <RelativeLayout

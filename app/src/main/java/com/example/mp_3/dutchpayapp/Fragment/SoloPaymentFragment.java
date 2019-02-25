@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,7 +48,7 @@ public class SoloPaymentFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_solo_payment,null);
 
         //코드로 결제하기
-        Button code = (Button) view.findViewById(R.id.btn_payment_code);
+        ImageView code = (ImageView) view.findViewById(R.id.btn_payment_code);
         code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +60,7 @@ public class SoloPaymentFragment extends Fragment {
         });
 
         //결제번호로 결제하기
-        Button number = (Button) view.findViewById(R.id.btn_payment_number);
+        ImageView number = (ImageView) view.findViewById(R.id.btn_payment_number);
         number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,11 +69,8 @@ public class SoloPaymentFragment extends Fragment {
                 PaymentNumber_Dialog dialog = new PaymentNumber_Dialog(getContext());
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
-
             }
         });
-
-
         return view;
     }
 }

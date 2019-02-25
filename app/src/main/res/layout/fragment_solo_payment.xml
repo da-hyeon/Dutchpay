@@ -3,57 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bgContent"
     android:orientation="vertical"
     tools:context=".Fragment.SoloPaymentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="120dp"
-        android:text="방식 선택"
-        android:textSize="30dp"
-        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/outline_black"
+        android:orientation="vertical">
 
-        <Button
+        <ImageView
             android:id="@+id/btn_payment_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/outline_orange"
-            android:text="\n바코드/QR코드\n"
-            android:textSize="20dp" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_weight="8"
+            android:src="@drawable/camera_vactor"></ImageView>
 
-        <Button
-            android:id="@+id/btn_payment_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="5"
-            android:background="@drawable/outline_black"
-            android:text="\n결제번호\n"
-            android:textSize="20dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="QR코드 / 바코드를 스캔하여 결제합니다."
+            android:textColor="#000000"
+            android:textSize="15dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView8"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="바코드/QR코드를 스캔하거나 \n 결제번호를 입력하여 \n 결제정보를 확인합니다."
-        android:textSize="18dp" />
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/outline_black"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/btn_payment_number"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_weight="8"
+            android:src="@drawable/pinnumber_black"></ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="결제번호를 입력하여 결제합니다."
+            android:textColor="#000000"
+            android:textSize="15dp" />
+
+
+    </LinearLayout>
 
 </LinearLayout>

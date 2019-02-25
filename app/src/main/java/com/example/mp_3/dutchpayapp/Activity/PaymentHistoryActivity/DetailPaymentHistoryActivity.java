@@ -30,7 +30,6 @@ public class DetailPaymentHistoryActivity extends AppCompatActivity {
         cost.setText(String.format("%,d", Integer.parseInt(data.get(3))) + "원");
 
 
-
     }
 
 

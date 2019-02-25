@@ -17,6 +17,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class JoinDutchPayFragment extends Fragment {
     private RelativeLayout layout_QRCodeStart;
     private RelativeLayout layout_QRCodeCamera;
 
-    private Button btn_QRCodeStart;
+    private ImageButton btn_QRCodeStart;
 
     private  SharedPreferences pref;
 
@@ -82,7 +83,7 @@ public class JoinDutchPayFragment extends Fragment {
         layout_QRCodeStart = (RelativeLayout) view.findViewById(R.id.layout_QRCodeStart);
         layout_QRCodeCamera = (RelativeLayout) view.findViewById(R.id.layout_QRCodeCamera);
 
-        btn_QRCodeStart = (Button) view.findViewById(R.id.btn_QRCodeStart) ;
+
 
         cameraPreview = (SurfaceView) view.findViewById(R.id.cameraPreview);
         txtResult = (TextView) view.findViewById(R.id.txtResult);
@@ -98,7 +99,7 @@ public class JoinDutchPayFragment extends Fragment {
 
 
 
-        btn_QRCodeStart = (Button)view.findViewById(R.id.btn_QRCodeStart);
+        btn_QRCodeStart = (ImageButton) view.findViewById(R.id.btn_QRCodeStart) ;
         btn_QRCodeStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +164,8 @@ public class JoinDutchPayFragment extends Fragment {
                                                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialog, int which) {
+                                                                    layout_QRCodeStart.setVisibility(View.VISIBLE);
+                                                                    layout_QRCodeCamera.setVisibility(View.GONE);
                                                                 }
                                                             }).setCancelable(false)
                                                             .create();

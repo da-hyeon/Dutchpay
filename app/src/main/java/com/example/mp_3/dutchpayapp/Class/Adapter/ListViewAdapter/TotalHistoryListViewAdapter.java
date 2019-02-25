@@ -46,6 +46,9 @@ public class TotalHistoryListViewAdapter extends ArrayAdapter<ListViewItem_Total
             viewHolder.requestsCount = cell.findViewById(R.id.title_requests_count);
             viewHolder.pledgePrice = cell.findViewById(R.id.title_pledge);
             viewHolder.contentRequestBtn = cell.findViewById(R.id.content_request_btn);
+
+            viewHolder.txt_historytTitle = cell.findViewById(R.id.txt_historytTitle);
+
             cell.setTag(viewHolder);
         } else {
             // for existing cell set valid valid state(without animation)
@@ -68,7 +71,7 @@ public class TotalHistoryListViewAdapter extends ArrayAdapter<ListViewItem_Total
         viewHolder.toAddress.setText(item.getToAddress());
         viewHolder.requestsCount.setText(String.valueOf(item.getRequestsCount()));
         viewHolder.pledgePrice.setText(item.getPledgePrice());
-
+        viewHolder.txt_historytTitle.setText("들어감?");
         // set custom btn handler for list item from that item
         if (item.getRequestBtnClickListener() != null) {
             viewHolder.contentRequestBtn.setOnClickListener(item.getRequestBtnClickListener());
@@ -114,6 +117,6 @@ public class TotalHistoryListViewAdapter extends ArrayAdapter<ListViewItem_Total
         TextView requestsCount;
         TextView date;
         TextView time;
+        TextView txt_historytTitle;
     }
-
 }

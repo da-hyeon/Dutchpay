@@ -33,7 +33,6 @@ public class DutchStartListViewAdapter extends BaseAdapter {
     private int participantCount;
     private int totalAmount;
 
-
     //AlertDialog.Builder dialog;
 
     public DutchStartListViewAdapter(Context context, ArrayList<ListViewItem_DutchStart> listViewItemList, int participantCount, int totalAmount) {
@@ -88,7 +87,7 @@ public class DutchStartListViewAdapter extends BaseAdapter {
         }
 
         viewHolder.userID.setText(listViewItemList.get(position).getUserID());
-        viewHolder.Amount.setText(String.format("%,d", listViewItemList.get(position).getAssignedAmount()));
+        viewHolder.Amount.setText(String.format("%,d", listViewItemList.get(position).getAssignedAmount()) + "원");
         viewHolder.check.setChecked(listViewItemList.get(position).isPrePaymentCheck());
 
         viewHolder.Amount.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +105,10 @@ public class DutchStartListViewAdapter extends BaseAdapter {
                                 int directAmountTotal = 0;
                                 int directAmountPersonCount = 0;
                                 int maximumAmountCheck = 0;
+
                                 //login service
                                 String value = et.getText().toString();
+                                int tempAmount = listViewItemList.get(position).getAssignedAmount();
 
                                 //입력한 금액이 1원 이상이어야 함
                                 if (value.length() > 0) {
@@ -123,19 +124,22 @@ public class DutchStartListViewAdapter extends BaseAdapter {
 
                                 // 1/n한 금액의 차액을 총 금액에서 뺴고 나눠야하므로 차액을 구해야함.
                                 for (int i = 0; i < listViewItemList.size(); i++) {
-
                                     maximumAmountCheck += listViewItemList.get(i).getAssignedAmount();
 
-                                    // 입력한 금액이 자동분배금액과 다를경우
                                     if (listViewItemList.get(i).getAssignedAmount() == listViewItemList.get(i).getDistributedAmount())
                                         continue;
 
+                                    //입력한 금액이 자동분배금액과 다를경우
                                     //직접입력한 값을 directAmountTotal에 더한다.
                                     directAmountTotal += listViewItemList.get(i).getAssignedAmount();
                                     directAmountPersonCount++;
                                 }
                                 Log.d("maximumAmountCheck" , maximumAmountCheck+"");
 
+                                if (directAmountTotal > totalAmount){
+                                    listViewItemList.get(position).setAssignedAmount(tempAmount);
+                                    return;
+                                }
 
                                 //나머지를 구한다.
                                 double restAmount = (totalAmount - directAmountTotal) % (listViewItemList.size() - directAmountPersonCount);
@@ -146,15 +150,24 @@ public class DutchStartListViewAdapter extends BaseAdapter {
                                     for (int i = 0; i < listViewItemList.size(); i++) {
                                         //입력값에 변동이 없었다면
                                         if (listViewItemList.get(i).getAssignedAmount() == listViewItemList.get(i).getDistributedAmount()) {
-                                            //분배금액을 넣어준다.
-                                            listViewItemList.get(i).setAssignedAmount(shareAmount);
-                                            listViewItemList.get(i).setDistributedAmount(listViewItemList.get(i).getAssignedAmount());
+                                            //호스트에게 나머지금액을 부담하게 함
+                                            if (listViewItemList.get(i).getHostID().equals(listViewItemList.get(i).getUserID())) {
+                                                listViewItemList.get(i).setAssignedAmount(listViewItemList.get(i).getAssignedAmount() + (int) restAmount);
+                                                listViewItemList.get(i).setDistributedAmount(listViewItemList.get(i).getAssignedAmount());
+                                            }
+                                            else {
+                                                //분배금액을 넣어준다.
+                                                listViewItemList.get(i).setAssignedAmount(shareAmount);
+                                                listViewItemList.get(i).setDistributedAmount(listViewItemList.get(i).getAssignedAmount());
+                                            }
                                         }
-
-                                        //호스트에게 나머지금액을 부담하게 함
-                                        if (listViewItemList.get(i).getHostID().equals(listViewItemList.get(i).getUserID())) {
-                                            listViewItemList.get(i).setAssignedAmount(listViewItemList.get(i).getAssignedAmount() + (int)restAmount);
-                                            listViewItemList.get(i).setDistributedAmount(listViewItemList.get(i).getAssignedAmount());
+                                        //입력값에 변동이 있었고
+                                        else {
+                                            //호스트라면
+                                            if (listViewItemList.get(i).getHostID().equals(listViewItemList.get(i).getUserID())) {
+                                                listViewItemList.get(i).setAssignedAmount(listViewItemList.get(i).getAssignedAmount() + (int) restAmount);
+                                                //listViewItemList.get(i).setDistributedAmount(listViewItemList.get(i).getAssignedAmount());
+                                            }
                                         }
                                     }
                                 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -28,20 +30,21 @@ import org.json.JSONObject;
 
 public class StartDutchPayFragment extends Fragment {
 
-    private GlobalVariable globalVariable;
     private UserInfo userInfo;
     Button btn0;    Button btn1;
     Button btn2;    Button btn3;
     Button btn4;    Button btn5;
     Button btn6;    Button btn7;
     Button btn8;    Button btn9;
-    Button back;    Button clear;
+    ImageButton back;    Button clear;
     Button code;    Button group;
 
     TextView tv;
 
     String money = "";
 
+    private Vibrator vibrator;
+    int vibratorTime = 50;
     private DataListener dataListener;
 
     public static StartDutchPayFragment newInstance() {
@@ -76,8 +79,7 @@ public class StartDutchPayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_start_dutch_pay,null);
         userInfo = UserInfo.getInstance();
 
-        globalVariable = GlobalVariable.getInstance();
-
+        vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         tv = (TextView)view.findViewById(R.id.tv_money);
 
@@ -89,6 +91,7 @@ public class StartDutchPayFragment extends Fragment {
                     money = money + "0";
                     tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
                 }
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn1 = (Button)view.findViewById(R.id.btn_1);
@@ -97,6 +100,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "1";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn2 = (Button)view.findViewById(R.id.btn_2);
@@ -105,6 +109,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "2";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn3 = (Button)view.findViewById(R.id.btn_3);
@@ -113,6 +118,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "3";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn4 = (Button)view.findViewById(R.id.btn_4);
@@ -121,6 +127,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "4";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn5 = (Button)view.findViewById(R.id.btn_5);
@@ -129,6 +136,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "5";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn6 = (Button)view.findViewById(R.id.btn_6);
@@ -137,6 +145,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "6";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn7 = (Button)view.findViewById(R.id.btn_7);
@@ -145,6 +154,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "7";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn8 = (Button)view.findViewById(R.id.btn_8);
@@ -153,6 +163,7 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "8";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
         btn9 = (Button)view.findViewById(R.id.btn_9);
@@ -161,12 +172,14 @@ public class StartDutchPayFragment extends Fragment {
             public void onClick(View v) {
                 money = money + "9";
                 tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
+                vibrator.vibrate(vibratorTime);
             }
         });
-        back = (Button)view.findViewById(R.id.btn_back);
+        back = (ImageButton)view.findViewById(R.id.btn_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vibrator.vibrate(vibratorTime);
                 int cut_l = money.length()-1;
                 if(cut_l < 0){
                     cut_l = 0;
@@ -178,6 +191,7 @@ public class StartDutchPayFragment extends Fragment {
                 } else {
                     tv.setText(String.format("%,d", Integer.parseInt(money)) + "원");
                 }
+
             }
         });
         clear = (Button)view.findViewById(R.id.btn_clear);

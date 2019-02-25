@@ -1,9 +1,10 @@
 package com.example.mp_3.dutchpayapp.Activity;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -19,20 +21,20 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.mp_3.dutchpayapp.Activity.PaymentActivity.PaymentQRScanActivity;
 import com.example.mp_3.dutchpayapp.Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity;
+import com.example.mp_3.dutchpayapp.Activity.SendMoneyActivity.FindRemittancePartnerActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmationPaymentActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmedDutchPayActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.PaymentQRCodeCreateActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.QRCodeCreateActivity;
+import com.example.mp_3.dutchpayapp.Activity.ViewMoreActivity.PaymentHistoryActivity;
 import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter.TabPagerAdapter;
 import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
-import com.example.mp_3.dutchpayapp.Class.NotificationReceivedHandler;
+import com.example.mp_3.dutchpayapp.Class.Handler.NotificationReceivedHandler;
+import com.example.mp_3.dutchpayapp.Class.ProgressClass.CustomProgressDialog;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.UserPushIDRegisterRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;
-import com.onesignal.OSNotification;
-import com.onesignal.OSNotificationAction;
-import com.onesignal.OSNotificationOpenResult;
 import com.onesignal.OSSubscriptionObserver;
 import com.onesignal.OSSubscriptionStateChanges;
 import com.onesignal.OneSignal;
@@ -62,8 +64,11 @@ public class MainActivity extends AppCompatActivity implements DataListener {
     private SharedPreferences pref_AutoLogin;
     private TextView MainTV;
 
-    private Button btn_Logout;
-    private Button btn_mainTabMenu;
+    private boolean mainTabCheck = false;
+
+    private ImageButton btn_mainTabMenu;
+
+    public static CustomProgressDialog customProgressDialog;
 
     public static MainActivity _MainActivity;
 
@@ -104,19 +109,25 @@ public class MainActivity extends AppCompatActivity implements DataListener {
 
         // Initializing the TabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("더치페이 시작하기"));
-        tabLayout.addTab(tabLayout.newTab().setText("더치페이 참여하기"));
-        tabLayout.addTab(tabLayout.newTab().setText("돈보내기"));
-        tabLayout.addTab(tabLayout.newTab().setText("이용내역"));
-        tabLayout.addTab(tabLayout.newTab().setText("더보기"));
+
+        tabLayout.addTab(tabLayout.newTab().setText("시작").setIcon(R.drawable.dutchpay_start_black_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText("참여").setIcon(R.drawable.dutchpay_join_gray_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText("결제").setIcon(R.drawable.solo_payment_gray_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText("송금").setIcon(R.drawable.send_money_gray_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText("더보기").setIcon(R.drawable.view_more_gray_24dp));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-
-        btn_mainTabMenu = (Button) findViewById(R.id.btn_mainTabMenu);
+        btn_mainTabMenu = (ImageButton) findViewById(R.id.btn_mainTabMenu);
         btn_mainTabMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(mainTabCheck){
+                    btn_mainTabMenu.setImageResource(R.drawable.logo);
+                    mainTabCheck = false;
+                } else {
+                    btn_mainTabMenu.setImageResource(R.drawable.selectmark);
+                    mainTabCheck = true;
+                }
             }
         });
 
@@ -127,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         // Creating TabPagerAdapter adapter
         pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
+       // viewPager.setCurrentItem(2);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         // Set TabSelectedListener
@@ -135,7 +147,29 @@ public class MainActivity extends AppCompatActivity implements DataListener {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                tabLayout.getTabAt(0).setIcon(R.drawable.dutchpay_start_gray_24dp);
+                tabLayout.getTabAt(1).setIcon(R.drawable.dutchpay_join_gray_24dp);
+                tabLayout.getTabAt(2).setIcon(R.drawable.solo_payment_gray_24dp);
+                tabLayout.getTabAt(3).setIcon(R.drawable.send_money_gray_24dp);
+                tabLayout.getTabAt(4).setIcon(R.drawable.view_more_gray_24dp);
 
+                switch (tab.getPosition()) {
+                    case 0:
+                        tabLayout.getTabAt(0).setIcon(R.drawable.dutchpay_start_black_24dp);
+                        break;
+                    case 1:
+                        tabLayout.getTabAt(1).setIcon(R.drawable.dutchpay_join_black_24dp);
+                        break;
+                    case 2:
+                        tabLayout.getTabAt(2).setIcon(R.drawable.solo_payment_black_24dp);
+                        break;
+                    case 3:
+                        tabLayout.getTabAt(3).setIcon(R.drawable.send_money_black_24dp);
+                        break;
+                    case 4:
+                        tabLayout.getTabAt(4).setIcon(R.drawable.view_more_black_24dp);
+                        break;
+                }
             }
 
             @Override
@@ -146,21 +180,6 @@ public class MainActivity extends AppCompatActivity implements DataListener {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });
-
-        btn_Logout = (Button) findViewById(R.id.btn_Logout);
-        btn_Logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pref_AutoLogin = getSharedPreferences("AutoLogin", MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref_AutoLogin.edit();
-                editor.putString("sharedUserID", "");
-                editor.putString("sharedUserPassword", "");
-                editor.commit();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
             }
         });
     }
@@ -204,6 +223,10 @@ public class MainActivity extends AppCompatActivity implements DataListener {
 
     @Override
     public void dataListenerSet(String data) {
+        customProgressDialog = new CustomProgressDialog(this, "QR코드를 생성하는중...");
+        customProgressDialog.getWindow().setBackgroundDrawable(null);
+        customProgressDialog.show();
+
         Intent intent = new Intent(this, QRCodeCreateActivity.class);
         intent.putExtra("data", data);
         startActivity(intent);
@@ -212,6 +235,10 @@ public class MainActivity extends AppCompatActivity implements DataListener {
 
     @Override
     public void PayLisstenerSet(String tmp) {
+        customProgressDialog = new CustomProgressDialog(this, "QR코드 스캔준비중...");
+        customProgressDialog.getWindow().setBackgroundDrawable(null);
+        customProgressDialog.show();
+
         Intent intent = new Intent(this, PaymentQRScanActivity.class);
         intent.putExtra("tmp", tmp);
         startActivity(intent);
@@ -222,6 +249,39 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         Intent intent = new Intent(this, DetailPaymentHistoryActivity.class);
         intent.putExtra("tmp", tmp);
         startActivity(intent);
+    }
+
+    @Override
+    public void historyListenerSet() {
+        customProgressDialog = new CustomProgressDialog(this, "결제내역 불러오는중...");
+        customProgressDialog.getWindow().setBackgroundDrawable(null);
+        customProgressDialog.show();
+
+        Intent intent = new Intent(this, PaymentHistoryActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void sendMoneyListenerSet(String data){
+        customProgressDialog = new CustomProgressDialog(this, "전화부호부 목록을 불러오는중...");
+        customProgressDialog.getWindow().setBackgroundDrawable(null);
+        customProgressDialog.show();
+
+        Intent intent = new Intent(this, FindRemittancePartnerActivity.class);
+        intent.putExtra("data", data);
+        startActivity(intent);
+    }
+
+    @Override
+    public void logoutListenerSet(){
+        pref_AutoLogin = getSharedPreferences("AutoLogin", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref_AutoLogin.edit();
+        editor.putString("sharedUserID", "");
+        editor.putString("sharedUserPassword", "");
+        editor.commit();
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -236,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         String userPassword;
         String userName;
         String userPaymentPassword;
+        String userPhoneNumber;
         String userEmail;
         int userDutchMoney;
         int userState;
@@ -292,24 +353,29 @@ public class MainActivity extends AppCompatActivity implements DataListener {
                 while (count < jsonArray.length()) {
                     JSONObject object = jsonArray.getJSONObject(count);
                     userPassword = object.getString("userPassword");
-                    userName = object.getString("userName");
                     userPaymentPassword = object.getString("userPaymentPassword");
+                    userName = object.getString("userName");
+                    userPhoneNumber = object.getString("userPhoneNumber");
                     userEmail = object.getString("userEmail");
                     userDutchMoney = object.getInt("userDutchMoney");
                     userState = object.getInt("userState");
                     count++;
                 }
 
-                userInfo.setUserInfo(userID, userPassword, userPaymentPassword, userName, userEmail, userDutchMoney, userState);
+                userInfo.setUserInfo(userID, userPassword, userPaymentPassword, userName, userPhoneNumber, userEmail, userDutchMoney, userState);
                 OneSignal.addSubscriptionObserver(mSubscriptionObserver);
-                MainTV.setText("더치머니 " + String.format("%,d", userInfo.getUserDutchMoney()) + "원 보유");
+                MainTV.setText(String.format("%,d", userInfo.getUserDutchMoney())+"원");
 
                 //user의 결제상태가 진행중이라면 앱 내에 저장되어있는 QRCODE데이터를 Load하여 QRCodeCreateActivity로 전달.
                 if (userState == 1) {
+                    customProgressDialog = new CustomProgressDialog(MainActivity.this, "QR코드를 생성하는중...");
+                    customProgressDialog.getWindow().setBackgroundDrawable(null);
+                    customProgressDialog.show();
+
                     Intent intent = new Intent(MainActivity.this, QRCodeCreateActivity.class);
                     intent.putExtra("data", userInfo.getUserQRCode());
                     startActivity(intent);
-                    finish();
+
                 }
 
                 //host가 결제를 확정지었을 경우 진입.
@@ -318,6 +384,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
                     startActivity(intent);
                     finish();
                 }
+
                 //user가 결제를 완료했을때 결제현황Activity진입
                 else if( userState == 3){
                     Intent intent = new Intent(MainActivity.this, ConfirmationPaymentActivity.class);

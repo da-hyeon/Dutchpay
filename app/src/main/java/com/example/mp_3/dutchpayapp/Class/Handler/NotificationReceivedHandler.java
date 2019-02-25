@@ -1,4 +1,4 @@
-package com.example.mp_3.dutchpayapp.Class;
+package com.example.mp_3.dutchpayapp.Class.Handler;
 
 import android.content.Context;
 

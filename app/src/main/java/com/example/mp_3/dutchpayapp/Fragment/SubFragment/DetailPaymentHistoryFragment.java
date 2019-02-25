@@ -38,16 +38,6 @@ public class DetailPaymentHistoryFragment extends Fragment {
 
     private ListView list;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if (context instanceof DataListener) {
-            dataListener = (DataListener) context;
-        } else {
-            throw new RuntimeException(context.toString());
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

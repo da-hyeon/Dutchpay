@@ -1,15 +1,19 @@
 package com.example.mp_3.dutchpayapp.Activity.PaymentActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +52,20 @@ public class PaymentPasswordCheckActivity extends AppCompatActivity {
 
     UserInfo userinfo = UserInfo.getInstance();
 
+    private Button btn0;
+    private Button btn1;
+    private Button btn2;
+    private Button btn3;
+    private Button btn4;
+    private Button btn5;
+    private Button btn6;
+    private Button btn7;
+    private Button btn8;
+    private Button btn9;
+    private ImageButton back;
+    private Button clear;
+
+
     private DatabaseReference mPostReference;
 
     private SharedPreferences pref;
@@ -64,12 +82,24 @@ public class PaymentPasswordCheckActivity extends AppCompatActivity {
 
     private UserInfo userInfo;
 
+    private TextView txt_title;
+    private ImageView radio_pw[] = new ImageView[6];
+    private Vibrator vibrator;
+
+    private String tmp = "";
+
+    int vibratorTime = 50;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_password_check);
 
         userInfo = UserInfo.getInstance();
+
+        txt_title = (TextView) findViewById(R.id.txt_title);
+
 
         _PaymentCallActivity = PaymentCallActivity._PaymentCallActivity;
         _ConfirmedDutchPayActivity = ConfirmedDutchPayActivity._ConfirmedDutchPayActivity;
@@ -84,197 +114,212 @@ public class PaymentPasswordCheckActivity extends AppCompatActivity {
 
         firebasePostArrayList = new ArrayList<>();
 
-        Button btn0;    Button btn1;
-        Button btn2;    Button btn3;
-        Button btn4;    Button btn5;
-        Button btn6;    Button btn7;
-        Button btn8;    Button btn9;
-        Button back;    Button clear;
-        Button next;
+        int radioID[] = {R.id.radio_pw1, R.id.radio_pw2, R.id.radio_pw3, R.id.radio_pw4, R.id.radio_pw5, R.id.radio_pw6};
 
-        final TextView password;
+        for (int i = 0; i < radio_pw.length; i++) {
+            radio_pw[i] = (ImageView) findViewById(radioID[i]);
+        }
 
-        password = (TextView)findViewById(R.id.tv_password);
+        txt_title.setText("비밀번호가 일치하면\n" + String.format("%,d", Integer.parseInt(assignedAmount)) + "원을 결제합니다.");
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        btn0 = (Button)findViewById(R.id.btn_0_pay);
+        btn0 = (Button) findViewById(R.id.btn_0);
         btn0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "0";
-                password.setText(tmp);
+                tmp += "0";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn1 = (Button)findViewById(R.id.btn_1_pay);
+        btn1 = (Button) findViewById(R.id.btn_1);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "1";
-                password.setText(tmp);
+                tmp += "1";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn2 = (Button)findViewById(R.id.btn_2_pay);
+        btn2 = (Button) findViewById(R.id.btn_2);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "2";
-                password.setText(tmp);
+                tmp += "2";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn3 = (Button)findViewById(R.id.btn_3_pay);
+        btn3 = (Button) findViewById(R.id.btn_3);
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "3";
-                password.setText(tmp);
+                tmp += "3";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn4 = (Button)findViewById(R.id.btn_4_pay);
+        btn4 = (Button) findViewById(R.id.btn_4);
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "4";
-                password.setText(tmp);
+                tmp += "4";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn5 = (Button)findViewById(R.id.btn_5_pay);
+        btn5 = (Button) findViewById(R.id.btn_5);
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "5";
-                password.setText(tmp);
+                tmp += "5";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn6 = (Button)findViewById(R.id.btn_6_pay);
+        btn6 = (Button) findViewById(R.id.btn_6);
         btn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "6";
-                password.setText(tmp);
+                tmp += "6";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn7 = (Button)findViewById(R.id.btn_7_pay);
+        btn7 = (Button) findViewById(R.id.btn_7);
         btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "7";
-                password.setText(tmp);
+                tmp += "7";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn8 = (Button)findViewById(R.id.btn_8_pay);
+        btn8 = (Button) findViewById(R.id.btn_8);
         btn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "8";
-                password.setText(tmp);
+                tmp += "8";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        btn9 = (Button)findViewById(R.id.btn_9_pay);
+        btn9 = (Button) findViewById(R.id.btn_9);
         btn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString() + "9";
-                password.setText(tmp);
+                tmp += "9";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
-        back = (Button)findViewById(R.id.btn_back_pay);
+
+        back = (ImageButton) findViewById(R.id.btn_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tmp = password.getText().toString();
-                if(!tmp.equals("")){
-                    int cut_l = tmp.length()-1;
+                if (!tmp.equals("")) {
+                    int cut_l = tmp.length() - 1;
 
-                    if(cut_l<0){ cut_l = 0; }
-                    tmp = tmp.substring(0,cut_l);
-                    password.setText(tmp);
+                    if (cut_l < 0) {
+                        cut_l = 0;
+                    }
+                    tmp = tmp.substring(0, cut_l);
+                    ImageViewChange(tmp);
+                    vibrator.vibrate(vibratorTime);
                 }
             }
         });
 
-        clear = (Button)findViewById(R.id.btn_clear_pay);
+        clear = (Button) findViewById(R.id.btn_clear);
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                password.setText("");
+                tmp = "";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
             }
         });
 
-
-
-        next = (Button)findViewById(R.id.btn_next_pay);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long now = System.currentTimeMillis();
-
-                Date date = new Date(now);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
-                String getTime = sdf.format(date);
-
-
-                if (password.getText().toString().equals(userinfo.getUserPaymentPassword())) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(PaymentPasswordCheckActivity.this);
-                    AlertDialog dialog = builder.setTitle("결제 완료")
-                            .setMessage("결제 일시 : " + getTime + "\n결제 금액 : " + String.format("%,d", Integer.parseInt(assignedAmount))+ "원\n결제 방식 : 더치머니")
-                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    userinfo.setUserDutchMoney(userInfo.getUserDutchMoney() - Integer.parseInt(assignedAmount));
-                                    //응답받기
-                                    Response.Listener<String> responseListener = new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            try {
-                                                JSONObject jsonResponse = new JSONObject(response);
-                                                boolean success = jsonResponse.getBoolean("success");
-
-                                                if (success) {
-                                                    postFirebaseDatabase();
-
-                                                    Intent intent = new Intent(PaymentPasswordCheckActivity.this, ConfirmationPaymentActivity.class);
-                                                    startActivity(intent);
-                                                    _ConfirmedDutchPayActivity.finish();
-                                                    _PaymentCallActivity.finish();
-                                                    finish();
-                                                } else{
-
-                                                }
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                Log.d("DB Error : ", "에러에러");
-                                            }
-                                        }
-                                    };
-                                    UserStateChangeRequest userStateChangeRequest = new UserStateChangeRequest(userInfo.getUserID(), userinfo.getUserDutchMoney()+"", "3" , responseListener);
-                                    RequestQueue queue = Volley.newRequestQueue(PaymentPasswordCheckActivity.this);
-                                    queue.add(userStateChangeRequest);
-
-
-                                    //메인으로 이동
-//                                    Intent intent = new Intent(PaymentPasswordCheckActivity.this, MainActivity.class);
-//                                    intent.putExtra("userID", user);
-//                                    startActivity(intent);
-//                                    finish();
-                                }
-                            }).setCancelable(false)
-                            .create();
-                    dialog.show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
+    public void ImageViewChange(String password) {
+        int length = password.length();
 
-    public void postFirebaseDatabase(){
+        if (password.length() < radio_pw.length) {
+            for (int i = 0; i < length; i++) {
+                radio_pw[i].setImageResource(R.drawable.password_entered);
+            }
 
-        if(targetHostID.equals("")) {
-            mPostReference.child(userinfo.getUserID()).push().setValue(new FirebasePost( userinfo.getUserID() , userinfo.getUserID() , true));
+            for (int i = length; i < radio_pw.length; i++) {
+                radio_pw[i].setImageResource(R.drawable.passworkd_notenterd);
+            }
 
-        } else{
-            mPostReference.child(targetHostID).push().setValue(new FirebasePost( targetHostID , userinfo.getUserID() ,true));
+        } else {
+            long now = System.currentTimeMillis();
+
+            Date date = new Date(now);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+            String getTime = sdf.format(date);
+
+            if (password.equals(userinfo.getUserPaymentPassword())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PaymentPasswordCheckActivity.this);
+                AlertDialog dialog = builder.setTitle("결제 완료")
+                        .setMessage("결제 일시 : " + getTime + "\n결제 금액 : " + String.format("%,d", Integer.parseInt(assignedAmount)) + "원\n결제 방식 : 더치머니")
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                userinfo.setUserDutchMoney(userInfo.getUserDutchMoney() - Integer.parseInt(assignedAmount));
+                                //응답받기
+                                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        try {
+                                            JSONObject jsonResponse = new JSONObject(response);
+                                            boolean success = jsonResponse.getBoolean("success");
+
+                                            if (success) {
+                                                postFirebaseDatabase();
+
+                                                Intent intent = new Intent(PaymentPasswordCheckActivity.this, ConfirmationPaymentActivity.class);
+                                                startActivity(intent);
+                                                _ConfirmedDutchPayActivity.finish();
+                                                _PaymentCallActivity.finish();
+                                                finish();
+                                            } else {
+
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            Log.d("DB Error : ", "에러에러");
+                                        }
+                                    }
+                                };
+                                UserStateChangeRequest userStateChangeRequest = new UserStateChangeRequest(userInfo.getUserID(), userinfo.getUserDutchMoney() + "", "3", responseListener);
+                                RequestQueue queue = Volley.newRequestQueue(PaymentPasswordCheckActivity.this);
+                                queue.add(userStateChangeRequest);
+
+                            }
+                        }).setCancelable(false)
+                        .create();
+                dialog.show();
+            } else {
+                Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                tmp = "";
+                ImageViewChange(tmp);
+                vibrator.vibrate(vibratorTime);
+            }
+        }
+    }
+
+    public void postFirebaseDatabase() {
+
+        if (targetHostID.equals("")) {
+            mPostReference.child(userinfo.getUserID()).push().setValue(new FirebasePost(userinfo.getUserID(), userinfo.getUserID(), true));
+
+        } else {
+            mPostReference.child(targetHostID).push().setValue(new FirebasePost(targetHostID, userinfo.getUserID(), true));
         }
     }
 }

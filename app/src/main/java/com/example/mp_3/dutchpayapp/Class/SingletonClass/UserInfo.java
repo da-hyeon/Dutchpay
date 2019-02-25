@@ -6,6 +6,7 @@ public class UserInfo {
     private String userPassword;
     private String userPaymentPassword;
     private String userName;
+    private String userPhoneNumber;
     private String userEmail;
     private int userDutchMoney;
     private int userState;          // 0 : 결제 진행x  , 1 : 결제 진행중
@@ -24,11 +25,12 @@ public class UserInfo {
         return UserInfoHolder.ourInstance;
     }
 
-    public void setUserInfo(String userID, String userPassword, String userPaymentPassword, String userName, String userEmail, int userDutchMoney , int userState) {
+    public void setUserInfo(String userID, String userPassword, String userPaymentPassword, String userName, String userPhoneNumber ,String userEmail, int userDutchMoney , int userState) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userPaymentPassword = userPaymentPassword;
         this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
         this.userEmail = userEmail;
         this.userDutchMoney = userDutchMoney;
         this.userState = userState;
@@ -64,6 +66,14 @@ public class UserInfo {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
     }
 
     public String getUserEmail() {

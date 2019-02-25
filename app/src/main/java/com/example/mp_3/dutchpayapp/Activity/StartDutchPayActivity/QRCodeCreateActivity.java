@@ -160,6 +160,10 @@ public class QRCodeCreateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        MainActivity.customProgressDialog.dismiss();
+        MainActivity._MainActivity.finish();
     }
 
     @Override
