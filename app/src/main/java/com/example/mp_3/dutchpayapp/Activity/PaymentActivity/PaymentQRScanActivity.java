@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,8 +49,8 @@ public class PaymentQRScanActivity extends AppCompatActivity {
 
     private UserInfo userInfo;
 
-    private RelativeLayout layout_QRCodeStart;
-    private RelativeLayout layout_QRCodeCamera;
+    private LinearLayout layout_QRCodeStart;
+    private LinearLayout layout_QRCodeCamera;
 
     private ImageButton btn_QRCodeStart;
 
@@ -81,8 +82,8 @@ public class PaymentQRScanActivity extends AppCompatActivity {
 
         userInfo = UserInfo.getInstance();
 
-        layout_QRCodeStart = (RelativeLayout) findViewById(R.id.layout_QRCodeStart);
-        layout_QRCodeCamera = (RelativeLayout) findViewById(R.id.layout_QRCodeCamera);
+        layout_QRCodeStart = (LinearLayout) findViewById(R.id.layout_QRCodeStart);
+        layout_QRCodeCamera = (LinearLayout) findViewById(R.id.layout_QRCodeCamera);
 
         btn_QRCodeStart = (ImageButton) findViewById(R.id.btn_QRCodeStart) ;
 

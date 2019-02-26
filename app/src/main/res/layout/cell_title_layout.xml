@@ -21,17 +21,18 @@
         android:paddingTop="20dp">
 
         <TextView
-            android:id="@+id/title_price"
+            android:id="@+id/title_delimiter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textColor="@android:color/white"
             android:text="받음"
+            android:textStyle="bold"
             android:textSize="26sp" />
 
         <TextView
-            android:id="@+id/title_time_label"
+            android:id="@+id/title_dateHMS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -42,10 +43,10 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/title_date_label"
+            android:id="@+id/title_dateYMD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/title_time_label"
+            android:layout_above="@id/title_dateHMS"
             android:text="2019-02-26"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -78,15 +79,16 @@
             android:src="@drawable/from_to_purple" />
 
         <TextView
-            android:id="@+id/title_from_address"
+            android:id="@+id/title_remittererID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/title_from_to_dots"
-            android:layout_marginTop="-5dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/title_from_to_dots"
             android:layout_toRightOf="@+id/title_from_to_dots"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
+            android:textStyle="bold"
             android:singleLine="true"
             android:text="보낸 사람 : "
             android:textColor="@android:color/black"
@@ -96,7 +98,7 @@
             android:id="@+id/title_from_to_dots_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/title_from_address"
+            android:layout_below="@id/title_remittererID"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/title_from_to_dots"
@@ -104,7 +106,7 @@
             android:src="@color/contentDividerLine" />
 
         <TextView
-            android:id="@+id/title_to_address"
+            android:id="@+id/title_receiverID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title_from_to_dots_divider"
@@ -113,65 +115,49 @@
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:text="받는사람 : "
+            android:textStyle="bold"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
 
+        <ImageView
+            android:id="@+id/title_from_to_dots_divide"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/title_receiverID"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/title_from_to_dots"
+            android:layout_toRightOf="@+id/title_from_to_dots"
+            android:src="@color/contentDividerLine" />
+
         <TextView
-            android:id="@+id/title_requests_count"
+            android:id="@+id/title_remittanceAmount"
             style="@style/TitleBadgeText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="50,000원"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="15dp"
+            android:textSize="20dp"
+            android:gravity="right"
+            android:text="50,000원"/>
 
         <TextView
             style="@style/TitleBadgeTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:layout_above="@id/title_requests_count"
-            android:layout_alignLeft="@id/title_requests_count"
-            android:layout_alignStart="@id/title_requests_count"
+            android:layout_above="@id/title_remittanceAmount"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="15dp"
+            android:gravity="right"
+            android:layout_alignLeft="@id/title_remittanceAmount"
+            android:layout_alignStart="@id/title_remittanceAmount"
             android:text="금액" />
-
-        <TextView
-            android:id="@+id/title_weight"
-            style="@style/TitleBadgeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/weight_mock" />
-
-        <TextView
-            style="@style/TitleBadgeTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/title_weight"
-            android:layout_alignLeft="@id/title_weight"
-            android:layout_alignStart="@id/title_weight"
-            android:text="@string/weight_badge" />
-
-        <TextView
-            android:id="@+id/title_pledge"
-            style="@style/TitleBadgeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            style="@style/TitleBadgeTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/title_pledge"
-            android:layout_alignLeft="@id/title_pledge"
-            android:layout_alignStart="@id/title_pledge"
-            android:text="받은금액" />
 
     </RelativeLayout>
 </LinearLayout>

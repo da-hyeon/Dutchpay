@@ -144,7 +144,14 @@ public class DetailPaymentHistoryFragment extends Fragment {
                     receiverID = object.getString("receiverID");
                     date = object.getString("date");
 
-                    listViewItem_totalHistories.add(new ListViewItem_TotalHistory(String.format("%,d", remittanceAmount)+"원", String.format("%,d", remittanceAmount)+"원", "W 79th St, NY, 10024", "W 139th St, NY, 10030", 3, date.substring(0,10), "05:10 PM"));
+                    //보냄
+                    if(remittererID.equals(userInfo.getUserID())){
+                        listViewItem_totalHistories.add(new ListViewItem_TotalHistory("보냄", date.substring(0,10), date.substring(11,date.length()) , remittererID , receiverID ,  remittanceAmount));
+                    }
+                    //받음
+                    else {
+                        listViewItem_totalHistories.add(new ListViewItem_TotalHistory("받음", date.substring(0,10), date.substring(11,date.length()) , remittererID , receiverID ,  remittanceAmount));
+                    }
                     count++;
                 }
 
