@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bgContent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Activity.StartDutchPayActivity.DutchGroupControlActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
 
@@ -32,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
+
             android:layout_margin="5dp"
             android:layout_weight="2"
             android:gravity="center"
@@ -56,8 +58,9 @@
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="19dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:background="@drawable/outline_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout">
@@ -70,7 +73,7 @@
                     android:gravity="center"
                     android:text="이름"
                     android:textColor="@color/cast_expanded_controller_background_color"
-                    android:textSize="16dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -81,7 +84,7 @@
                     android:gravity="center"
                     android:text="금액"
                     android:textColor="@color/cast_expanded_controller_background_color"
-                    android:textSize="16dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -89,10 +92,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="right"
+                    android:gravity="center"
                     android:text="사전 납부"
                     android:textColor="@color/cast_expanded_controller_background_color"
-                    android:textSize="16dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -116,17 +119,21 @@
                 android:id="@+id/btn_before_host"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/outline_black"
                 android:layout_alignParentBottom="true"
                 android:layout_weight="1"
+                android:layout_margin="5dp"
                 android:text="이전" />
 
             <Button
                 android:id="@+id/btn_next_host"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/outline_black"
                 android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="다음" />
+                android:text="금액확정" />
 
         </LinearLayout>
     </LinearLayout>

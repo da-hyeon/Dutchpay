@@ -298,6 +298,7 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         String userPaymentPassword;
         String userPhoneNumber;
         String userEmail;
+        String userPushID;
         int userDutchMoney;
         int userState;
 
@@ -359,15 +360,17 @@ public class MainActivity extends AppCompatActivity implements DataListener {
                     userEmail = object.getString("userEmail");
                     userDutchMoney = object.getInt("userDutchMoney");
                     userState = object.getInt("userState");
+                    userPushID = object.getString("userPushID");
                     count++;
                 }
 
-                userInfo.setUserInfo(userID, userPassword, userPaymentPassword, userName, userPhoneNumber, userEmail, userDutchMoney, userState);
+                userInfo.setUserInfo(userID, userPassword, userPaymentPassword, userName, userPhoneNumber, userEmail, userDutchMoney, userState , userPushID);
                 OneSignal.addSubscriptionObserver(mSubscriptionObserver);
                 MainTV.setText(String.format("%,d", userInfo.getUserDutchMoney())+"원");
 
                 //user의 결제상태가 진행중이라면 앱 내에 저장되어있는 QRCODE데이터를 Load하여 QRCodeCreateActivity로 전달.
                 if (userState == 1) {
+
                     customProgressDialog = new CustomProgressDialog(MainActivity.this, "QR코드를 생성하는중...");
                     customProgressDialog.getWindow().setBackgroundDrawable(null);
                     customProgressDialog.show();

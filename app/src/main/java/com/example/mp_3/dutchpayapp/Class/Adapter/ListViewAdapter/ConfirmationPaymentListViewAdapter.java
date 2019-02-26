@@ -67,7 +67,7 @@ public class ConfirmationPaymentListViewAdapter extends BaseAdapter {
         }
 
         viewHolder.userID.setText(listViewItemList.get(position).getUserID());
-        viewHolder.Amount.setText(String.format("%,d", listViewItemList.get(position).getAssignedAmount()));
+        viewHolder.Amount.setText(String.format("%,d", listViewItemList.get(position).getAssignedAmount()) + "원");
         viewHolder.check.setChecked(listViewItemList.get(position).isPrePaymentCheck());
 
         return convertView;

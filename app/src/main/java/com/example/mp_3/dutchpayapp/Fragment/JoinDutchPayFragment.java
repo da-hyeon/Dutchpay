@@ -16,8 +16,11 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,14 +43,15 @@ public class JoinDutchPayFragment extends Fragment {
 
     private SurfaceView cameraPreview;
     private TextView txtResult;
+    private TextView txt_cameraInfo;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private final int RequestCameraPermissionID = 1001;
 
     private UserInfo userInfo;
 
-    private RelativeLayout layout_QRCodeStart;
-    private RelativeLayout layout_QRCodeCamera;
+    private LinearLayout layout_QRCodeStart;
+    private LinearLayout layout_QRCodeCamera;
 
     private ImageButton btn_QRCodeStart;
 
@@ -80,8 +84,8 @@ public class JoinDutchPayFragment extends Fragment {
         pref = this.getActivity().getSharedPreferences("hostID",Context.MODE_PRIVATE);
         userInfo = UserInfo.getInstance();
 
-        layout_QRCodeStart = (RelativeLayout) view.findViewById(R.id.layout_QRCodeStart);
-        layout_QRCodeCamera = (RelativeLayout) view.findViewById(R.id.layout_QRCodeCamera);
+        layout_QRCodeStart = (LinearLayout) view.findViewById(R.id.layout_QRCodeStart);
+        layout_QRCodeCamera = (LinearLayout) view.findViewById(R.id.layout_QRCodeCamera);
 
 
 
@@ -97,6 +101,9 @@ public class JoinDutchPayFragment extends Fragment {
                 .setRequestedPreviewSize(640, 480)
                 .build();
 
+        txt_cameraInfo = (TextView) view.findViewById(R.id.txt_cameraInfo);
+        Animation startAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.blink_animation);
+        txt_cameraInfo.startAnimation(startAnimation);
 
 
         btn_QRCodeStart = (ImageButton) view.findViewById(R.id.btn_QRCodeStart) ;

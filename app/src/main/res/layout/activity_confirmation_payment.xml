@@ -22,46 +22,52 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:layout_weight="3"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+
+        <TextView
+            android:id="@+id/tv_participantsCount"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:shadowColor="#33000000"
+            android:shadowDx="6.0"
+            android:shadowDy="6.0"
+            android:shadowRadius="2.0"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="30dp"
-                android:background="@drawable/outline_black"
-                android:gravity="center"
-                tools:layout_editor_absoluteX="40dp"
-                tools:layout_editor_absoluteY="86dp">
+        <TextView
+            android:id="@+id/txt_autoInfoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="모든 인원이 결제되면 자동으로 페이지가 넘어갑니다."
+            android:textColor="#ff0000"
+            android:textSize="10dp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_participantsCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="5dp"
-                    android:gravity="center"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="19dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/outline_black"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/textView4"
@@ -88,25 +94,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:gravity="right"
+                android:gravity="center"
                 android:text="결제 여부"
                 android:textSize="16dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <LinearLayout
+
+        <ListView
+            android:id="@+id/lv_participants"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7">
-
-            <ListView
-                android:id="@+id/lv_participants"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-        </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:divider="@color/colorPrimary"
+            android:dividerHeight="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
     </LinearLayout>
 </LinearLayout>

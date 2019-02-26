@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,6 +48,7 @@ public class ConfirmationPaymentActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView tv_participantsCount;
+    private TextView txt_autoInfoText;
 
     private ArrayList<ListViewItem_ConfirmationPayment> listViewItemList;
 
@@ -89,7 +92,9 @@ public class ConfirmationPaymentActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.lv_participants);
         tv_participantsCount = (TextView) findViewById(R.id.tv_participantsCount);
 
-
+        txt_autoInfoText = (TextView) findViewById(R.id.txt_autoInfoText);
+        Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_animation);
+        txt_autoInfoText.startAnimation(startAnimation);
 
         new BackGroundTask().execute();
     }

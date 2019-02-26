@@ -136,11 +136,18 @@ public class FindRemittancePartnerActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(FindRemittancePartnerActivity.this , SendMoneyPasswordCheckActivity.class);
-                intent.putExtra("amount",amount);
-                startActivity(intent);
-                finish();
-                //Toast.makeText(FindRemittancePartnerActivity.this, PhoneNumberUtils.formatNumber(telephoneDirectories.get(position).getUserPhoneNumber(), Locale.getDefault().getCountry()), Toast.LENGTH_SHORT).show();
+                if (!telephoneDirectories.get(position).getUserName().equals("입력한 결과를 찾지 못했습니다.")) {
+                    Intent intent = new Intent(FindRemittancePartnerActivity.this, SendMoneyPasswordCheckActivity.class);
+                    intent.putExtra("amount", amount);
+                    if (!telephoneDirectories.get(position).getUserPhoneNumber().equals("위의 연락처로 송금하기")) {
+                        intent.putExtra("phoneNumber", PhoneNumberUtils.formatNumber(telephoneDirectories.get(position).getUserPhoneNumber(), Locale.getDefault().getCountry()));
+                    } else {
+                        intent.putExtra("phoneNumber", PhoneNumberUtils.formatNumber(telephoneDirectories.get(position).getUserName(), Locale.getDefault().getCountry()));
+                    }
+                    startActivity(intent);
+                    finish();
+                    //Toast.makeText(FindRemittancePartnerActivity.this, PhoneNumberUtils.formatNumber(telephoneDirectories.get(position).getUserPhoneNumber(), Locale.getDefault().getCountry()), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

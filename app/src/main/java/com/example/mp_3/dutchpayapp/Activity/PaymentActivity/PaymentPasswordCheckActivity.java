@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -71,11 +72,7 @@ public class PaymentPasswordCheckActivity extends AppCompatActivity {
     private SharedPreferences pref;
 
     private String targetHostID;
-    private String totalParticipantCount;
     private String assignedAmount;
-    private int currentTotalParticipantCount;
-
-    private ArrayList<FirebasePost> firebasePostArrayList;
 
     private PaymentCallActivity _PaymentCallActivity;
     private ConfirmedDutchPayActivity _ConfirmedDutchPayActivity;
@@ -92,8 +89,10 @@ public class PaymentPasswordCheckActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_payment_password_check);
 
         userInfo = UserInfo.getInstance();
@@ -108,11 +107,7 @@ public class PaymentPasswordCheckActivity extends AppCompatActivity {
         targetHostID = pref.getString("hostID", "");
 
         mPostReference = FirebaseDatabase.getInstance().getReference("userInfo");
-        totalParticipantCount = getIntent().getExtras().getString("totalParticipantCount");
         assignedAmount = getIntent().getExtras().getString("assignedAmount");
-        currentTotalParticipantCount = 0;
-
-        firebasePostArrayList = new ArrayList<>();
 
         int radioID[] = {R.id.radio_pw1, R.id.radio_pw2, R.id.radio_pw3, R.id.radio_pw4, R.id.radio_pw5, R.id.radio_pw6};
 

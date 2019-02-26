@@ -79,11 +79,11 @@ public class DetailPaymentHistoryFragment extends Fragment {
     private class BackGroundTask extends AsyncTask<Void, Void, String> {
         String target;
 
-        int historyID;
+        int remittanceID;
+        int remittanceAmount;
+        String remittererID;
+        String receiverID;
         String date;
-        String companyName;
-        String participantName;
-        int Amount;
 
         UserInfo userInfo;
 
@@ -92,7 +92,7 @@ public class DetailPaymentHistoryFragment extends Fragment {
             try {
                 userInfo = UserInfo.getInstance();
 
-                target = "http://kjg123kg.cafe24.com/DutchPay_HistorySelect.php?userID=" + URLEncoder.encode(userInfo.getUserID(), "UTF-8");
+                target = "http://kjg123kg.cafe24.com/DutchPay_RemittanceHistory_ListRequest.php?userID=" + URLEncoder.encode(userInfo.getUserID(), "UTF-8");
                 Log.d("target", target);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -137,13 +137,14 @@ public class DetailPaymentHistoryFragment extends Fragment {
 
                 while (count < jsonArray.length()) {
                     JSONObject object = jsonArray.getJSONObject(count);
-                    historyID = object.getInt("historyID");
-                    date = object.getString("Date");
-                    companyName = object.getString("companyName");
-                    participantName = object.getString("participantName");
-                    Amount = object.getInt("Amount");
 
-                    listViewItem_totalHistories.add(new ListViewItem_TotalHistory(String.format("%,d", Amount)+"원", String.format("%,d", Amount)+"원", "W 79th St, NY, 10024", "W 139th St, NY, 10030", 3, date.substring(0,10), "05:10 PM"));
+                    remittanceID = object.getInt("remittanceID");
+                    remittanceAmount = object.getInt("remittanceAmount");
+                    remittererID = object.getString("remittererID");
+                    receiverID = object.getString("receiverID");
+                    date = object.getString("date");
+
+                    listViewItem_totalHistories.add(new ListViewItem_TotalHistory(String.format("%,d", remittanceAmount)+"원", String.format("%,d", remittanceAmount)+"원", "W 79th St, NY, 10024", "W 139th St, NY, 10030", 3, date.substring(0,10), "05:10 PM"));
                     count++;
                 }
 

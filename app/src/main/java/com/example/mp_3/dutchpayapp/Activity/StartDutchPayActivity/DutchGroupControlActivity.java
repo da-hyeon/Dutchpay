@@ -20,7 +20,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.mp_3.dutchpayapp.Class.Adapter.ListViewAdapter.DutchStartListViewAdapter;
 import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_DutchStart;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.ParticipantInfoUpdateRequest;
-import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCancel_DBDeleteRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
 import com.onesignal.OneSignal;
@@ -62,7 +61,7 @@ public class DutchGroupControlActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.tv_memberCount);
         userInfo = UserInfo.getInstance();
 
-        userPushIDList = new ArrayList();
+        userPushIDList = new ArrayList<>();
         listViewItemList = new ArrayList<>();
 
         list = (ListView) findViewById(R.id.lv_dutch_host);

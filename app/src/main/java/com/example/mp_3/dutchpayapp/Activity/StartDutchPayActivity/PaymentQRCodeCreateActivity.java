@@ -9,8 +9,12 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,6 +34,7 @@ import androidmads.library.qrgenearator.QRGEncoder;
 public class PaymentQRCodeCreateActivity extends AppCompatActivity {
 
     private ImageView qrImage;
+    private TextView txt_QRinfoText;
     private Bitmap bitmap;
     private QRGEncoder qrgEncoder;
     private UserInfo userInfo;
@@ -65,6 +70,10 @@ public class PaymentQRCodeCreateActivity extends AppCompatActivity {
         int smallerDimension = width < height ? width : height;
         smallerDimension = smallerDimension * 3 / 4;
 
+        Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_animation);
+        txt_QRinfoText = (TextView) findViewById(R.id.txt_QRinfoText);
+        txt_QRinfoText.startAnimation(startAnimation);
+
         //--QR코드 생성 data는 [userID + 이전 액티비티가 넘긴 결제 금액 ]
         qrgEncoder = new QRGEncoder(
                 qrKey+ "," + amount, null,
@@ -76,19 +85,6 @@ public class PaymentQRCodeCreateActivity extends AppCompatActivity {
         } catch (WriterException e) {
             Log.v(TAG, e.toString());
         }
-
-        //바코드로 이동
-        ToBarCorde = (Button)findViewById(R.id.btn_barcode);
-        ToBarCorde.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //바코드 결제 페이지로 이동
-//                Intent intent = new Intent(this,@@.class);
-//                startActivity(intent);
-
-            }
-        });
 
         btn_successPayment = (Button)findViewById(R.id.btn_successPayment);
         btn_successPayment.setOnClickListener(new View.OnClickListener() {

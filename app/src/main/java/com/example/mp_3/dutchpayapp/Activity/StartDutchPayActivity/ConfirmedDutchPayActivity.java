@@ -45,7 +45,6 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
     private ListView list;
     private TextView tv_totalCost;
     private Button btn_next_host;
-    private Button btn_before_host;
 
     private SharedPreferences pref;
 
@@ -95,22 +94,6 @@ public class ConfirmedDutchPayActivity extends AppCompatActivity {
                 intent.putExtra("totalAmount" , totalAmount);
                 intent.putExtra("assignedAmount" , myAssignedAmount);
                 startActivity(intent);
-            }
-        });
-
-        //뒤로가기
-        btn_before_host = (Button) findViewById(R.id.btn_before_host);
-        btn_before_host.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //접속한 사람이 호스트일경우
-                if(targetHostID.equals("")){
-
-                }
-                //접속한 사람이 참여자일경우
-                else {
-                    finish();
-                }
             }
         });
     }

@@ -12,8 +12,11 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,6 +39,7 @@ import androidmads.library.qrgenearator.QRGEncoder;
 public class QRCodeCreateActivity extends AppCompatActivity {
 
     private ImageView qrImage;
+    private TextView txt_QRinfoText;
     private Bitmap bitmap;
     private QRGEncoder qrgEncoder;
     private UserInfo userInfo;
@@ -94,6 +98,10 @@ public class QRCodeCreateActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("hostID", "");
         editor.commit();
+
+        Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_animation);
+        txt_QRinfoText = (TextView) findViewById(R.id.txt_QRinfoText);
+        txt_QRinfoText.startAnimation(startAnimation);
 
         //취소하기
         QR_Cancel = (Button) findViewById(R.id.QR_Cancel);

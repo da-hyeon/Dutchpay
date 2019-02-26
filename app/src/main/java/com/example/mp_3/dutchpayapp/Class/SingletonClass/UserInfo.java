@@ -25,7 +25,7 @@ public class UserInfo {
         return UserInfoHolder.ourInstance;
     }
 
-    public void setUserInfo(String userID, String userPassword, String userPaymentPassword, String userName, String userPhoneNumber ,String userEmail, int userDutchMoney , int userState) {
+    public void setUserInfo(String userID, String userPassword, String userPaymentPassword, String userName, String userPhoneNumber ,String userEmail, int userDutchMoney , int userState , String userPushID) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userPaymentPassword = userPaymentPassword;
@@ -34,6 +34,7 @@ public class UserInfo {
         this.userEmail = userEmail;
         this.userDutchMoney = userDutchMoney;
         this.userState = userState;
+        this.userPushID = userPushID;
     }
 
     public String getUserID() {
