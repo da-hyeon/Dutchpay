@@ -21,13 +21,10 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.example.mp_3.dutchpayapp.Activity.LoginActivity;
-import com.example.mp_3.dutchpayapp.Activity.MainActivity;
+import com.example.mp_3.dutchpayapp.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.Handler.BackPressCloseHandler;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCancel_DBDeleteRequest;
-import com.example.mp_3.dutchpayapp.Class.RequestClass.QRScan_DBAddRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
-import com.example.mp_3.dutchpayapp.Fragment.StartDutchPayFragment;
 import com.example.mp_3.dutchpayapp.R;
 import com.google.zxing.WriterException;
 
@@ -171,7 +168,6 @@ public class QRCodeCreateActivity extends AppCompatActivity {
 
 
         MainActivity.customProgressDialog.dismiss();
-        MainActivity._MainActivity.finish();
     }
 
     @Override

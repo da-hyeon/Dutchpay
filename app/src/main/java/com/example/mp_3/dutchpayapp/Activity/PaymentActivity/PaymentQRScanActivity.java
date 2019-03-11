@@ -1,40 +1,26 @@
 package com.example.mp_3.dutchpayapp.Activity.PaymentActivity;
 import android.Manifest;
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-import com.example.mp_3.dutchpayapp.Activity.MainActivity;
-import com.example.mp_3.dutchpayapp.Class.RequestClass.QRScan_DBAddRequest;
+import com.example.mp_3.dutchpayapp.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 

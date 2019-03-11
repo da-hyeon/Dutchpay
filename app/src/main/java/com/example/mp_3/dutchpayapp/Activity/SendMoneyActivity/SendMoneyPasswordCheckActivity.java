@@ -1,7 +1,6 @@
 package com.example.mp_3.dutchpayapp.Activity.SendMoneyActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -18,16 +17,8 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.example.mp_3.dutchpayapp.Activity.MainActivity;
-import com.example.mp_3.dutchpayapp.Activity.PaymentActivity.PaymentPasswordCheckActivity;
-import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmationPaymentActivity;
-import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmedDutchPayActivity;
-import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.PaymentQRCodeCreateActivity;
-import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.QRCodeCreateActivity;
-import com.example.mp_3.dutchpayapp.Class.ProgressClass.CustomProgressDialog;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.RemittanceHistory_DBAddRequest;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.UserDutchMoneyChangeRequest;
-import com.example.mp_3.dutchpayapp.Class.RequestClass.UserStateChangeRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
 import com.onesignal.OneSignal;

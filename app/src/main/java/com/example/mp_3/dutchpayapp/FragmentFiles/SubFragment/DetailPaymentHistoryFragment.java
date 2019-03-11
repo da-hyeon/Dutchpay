@@ -1,6 +1,5 @@
-package com.example.mp_3.dutchpayapp.Fragment.SubFragment;
+package com.example.mp_3.dutchpayapp.FragmentFiles.SubFragment;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -17,4 +17,6 @@ public interface DataListener {
     void sendMoneyListenerSet(String tmp);
 
     void logoutListenerSet();
+
+    void customerInquiryListenerSet();
 }

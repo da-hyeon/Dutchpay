@@ -1,4 +1,4 @@
-package com.example.mp_3.dutchpayapp.Fragment.SubFragment;
+package com.example.mp_3.dutchpayapp.FragmentFiles.SubFragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

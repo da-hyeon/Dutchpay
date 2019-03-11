@@ -1,212 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bgContent"
-    android:orientation="vertical"
-    tools:context=".Fragment.SendMoneyFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:layout_weight="3"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/bgContent">
 
-        <TextView
-            android:id="@+id/tv_money"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:layout_weight="3"
             android:gravity="center"
-            android:maxLength="10"
-            android:text="0원"
-            android:textColor="#000000"
-            android:textSize="40dp"
-            android:textStyle="bold"
-            android:shadowColor="#33000000"
-            android:shadowDx="6.0"
-            android:shadowDy="6.0"
-            android:shadowRadius="2.0"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txt_maxAmountText"
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLength="10"
+                android:shadowColor="#33000000"
+                android:shadowDx="6.0"
+                android:shadowDy="6.0"
+                android:shadowRadius="2.0"
+                android:text="0원"
+                android:textColor="#000000"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_maxAmountText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="최대 200만원까지 가능합니다."
+                android:textColor="#ff0000"
+                android:textSize="10dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#ff0000"
-            android:textSize="10dp"
-            android:gravity="center"
-            android:text="최대 200만원까지 가능합니다."
-            android:visibility="gone"/>
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="6"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btn_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="1"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="2"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="3"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btn_4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="4"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="5"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="6"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btn_7"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="7"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="8"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_9"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="9"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btn_clear"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="clear"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:text="0"
+                    android:textSize="20dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00ff0000"
+                    android:src="@drawable/ic_arrow_black_24dp"
+                    android:textSize="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_sendMoney"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/outline_black"
+                android:shadowColor="#33000000"
+                android:shadowDx="6.0"
+                android:shadowDy="6.0"
+                android:shadowRadius="2.0"
+                android:text="송금하기"
+                android:textSize="20dp" />
+
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_weight="6"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btn_1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="1"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btn_2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="2"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btn_3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="3"
-                android:textSize="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btn_4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="4"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btn_5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="5"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btn_6"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="6"
-                android:textSize="20dp" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btn_7"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="7"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btn_8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="8"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btn_9"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="9"
-                android:textSize="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btn_clear"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="clear"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btn_0"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:text="0"
-                android:textSize="20dp" />
-
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:src="@drawable/ic_arrow_black_24dp"
-                android:textSize="20dp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:layout_marginTop="30dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_send_Money"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/outline_black"
-            android:text="송금하기"
-            android:textSize="20dp"
-            android:shadowColor="#33000000"
-            android:shadowDx="6.0"
-            android:shadowDy="6.0"
-            android:shadowRadius="2.0"/>
-    </LinearLayout>
-</LinearLayout>
+</layout>

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bgContent"
     android:orientation="vertical"
-    tools:context=".Fragment.SoloPaymentFragment">
+    tools:context=".FragmentFiles.SoloPaymentFragment">
 
 
     <LinearLayout

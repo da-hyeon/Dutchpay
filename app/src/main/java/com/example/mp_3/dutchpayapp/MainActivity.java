@@ -1,27 +1,26 @@
-package com.example.mp_3.dutchpayapp.Activity;
+package com.example.mp_3.dutchpayapp;
 
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.media.Image;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.mp_3.dutchpayapp.Activity.LoginActivity;
 import com.example.mp_3.dutchpayapp.Activity.PaymentActivity.PaymentQRScanActivity;
 import com.example.mp_3.dutchpayapp.Activity.PaymentHistoryActivity.DetailPaymentHistoryActivity;
 import com.example.mp_3.dutchpayapp.Activity.SendMoneyActivity.FindRemittancePartnerActivity;
+import com.example.mp_3.dutchpayapp.Activity.ServiceCenterActivity.CustomerServiceMainActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmationPaymentActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.ConfirmedDutchPayActivity;
 import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.PaymentQRCodeCreateActivity;
@@ -33,8 +32,9 @@ import com.example.mp_3.dutchpayapp.Class.Handler.NotificationReceivedHandler;
 import com.example.mp_3.dutchpayapp.Class.ProgressClass.CustomProgressDialog;
 import com.example.mp_3.dutchpayapp.Class.RequestClass.UserPushIDRegisterRequest;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
+import com.example.mp_3.dutchpayapp.FragmentFiles.SendMoneyFragment;
 import com.example.mp_3.dutchpayapp.Interface.DataListener;
-import com.example.mp_3.dutchpayapp.R;
+import com.example.mp_3.dutchpayapp.databinding.ActivityMainBinding;
 import com.onesignal.OSSubscriptionObserver;
 import com.onesignal.OSSubscriptionStateChanges;
 import com.onesignal.OneSignal;
@@ -52,8 +52,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements DataListener {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ActivityMainBinding mBinding;
     private BackPressCloseHandler backPressCloseHandler;
     private String userID;
 
@@ -70,14 +69,11 @@ public class MainActivity extends AppCompatActivity implements DataListener {
 
     public static CustomProgressDialog customProgressDialog;
 
-    public static MainActivity _MainActivity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        _MainActivity = MainActivity.this;
+        mBinding = DataBindingUtil.setContentView(this , R.layout.activity_main);
+        mBinding.setActivity(this);
 
         OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
@@ -108,14 +104,12 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         MainTV = (TextView) findViewById(R.id.tv_main_money);
 
         // Initializing the TabLayout
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-
-        tabLayout.addTab(tabLayout.newTab().setText("시작").setIcon(R.drawable.dutchpay_start_black_24dp));
-        tabLayout.addTab(tabLayout.newTab().setText("참여").setIcon(R.drawable.dutchpay_join_gray_24dp));
-        tabLayout.addTab(tabLayout.newTab().setText("결제").setIcon(R.drawable.solo_payment_gray_24dp));
-        tabLayout.addTab(tabLayout.newTab().setText("송금").setIcon(R.drawable.send_money_gray_24dp));
-        tabLayout.addTab(tabLayout.newTab().setText("더보기").setIcon(R.drawable.view_more_gray_24dp));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        mBinding.tabLayout.addTab(mBinding.tabLayout.newTab().setText("시작").setIcon(R.drawable.dutchpay_start_black_24dp));
+        mBinding.tabLayout.addTab(mBinding.tabLayout.newTab().setText("참여").setIcon(R.drawable.dutchpay_join_gray_24dp));
+        mBinding.tabLayout.addTab(mBinding.tabLayout.newTab().setText("결제").setIcon(R.drawable.solo_payment_gray_24dp));
+        mBinding.tabLayout.addTab(mBinding.tabLayout.newTab().setText("송금").setIcon(R.drawable.send_money_gray_24dp));
+        mBinding.tabLayout.addTab(mBinding.tabLayout.newTab().setText("더보기").setIcon(R.drawable.view_more_gray_24dp));
+        mBinding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         btn_mainTabMenu = (ImageButton) findViewById(R.id.btn_mainTabMenu);
         btn_mainTabMenu.setOnClickListener(new View.OnClickListener() {
@@ -133,41 +127,40 @@ public class MainActivity extends AppCompatActivity implements DataListener {
 
 
         // Initializing ViewPager
-        viewPager = (ViewPager) findViewById(R.id.pager);
 
         // Creating TabPagerAdapter adapter
-        pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(pagerAdapter);
+        pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), mBinding.tabLayout.getTabCount());
+        mBinding.pager.setAdapter(pagerAdapter);
        // viewPager.setCurrentItem(2);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        mBinding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mBinding.tabLayout));
 
         // Set TabSelectedListener
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-                tabLayout.getTabAt(0).setIcon(R.drawable.dutchpay_start_gray_24dp);
-                tabLayout.getTabAt(1).setIcon(R.drawable.dutchpay_join_gray_24dp);
-                tabLayout.getTabAt(2).setIcon(R.drawable.solo_payment_gray_24dp);
-                tabLayout.getTabAt(3).setIcon(R.drawable.send_money_gray_24dp);
-                tabLayout.getTabAt(4).setIcon(R.drawable.view_more_gray_24dp);
+                mBinding.pager.setCurrentItem(tab.getPosition());
+                mBinding.tabLayout.getTabAt(0).setIcon(R.drawable.dutchpay_start_gray_24dp);
+                mBinding.tabLayout.getTabAt(1).setIcon(R.drawable.dutchpay_join_gray_24dp);
+                mBinding.tabLayout.getTabAt(2).setIcon(R.drawable.solo_payment_gray_24dp);
+                mBinding.tabLayout.getTabAt(3).setIcon(R.drawable.send_money_gray_24dp);
+                mBinding.tabLayout.getTabAt(4).setIcon(R.drawable.view_more_gray_24dp);
 
                 switch (tab.getPosition()) {
                     case 0:
-                        tabLayout.getTabAt(0).setIcon(R.drawable.dutchpay_start_black_24dp);
+                        mBinding.tabLayout.getTabAt(0).setIcon(R.drawable.dutchpay_start_black_24dp);
                         break;
                     case 1:
-                        tabLayout.getTabAt(1).setIcon(R.drawable.dutchpay_join_black_24dp);
+                        mBinding.tabLayout.getTabAt(1).setIcon(R.drawable.dutchpay_join_black_24dp);
                         break;
                     case 2:
-                        tabLayout.getTabAt(2).setIcon(R.drawable.solo_payment_black_24dp);
+                        mBinding.tabLayout.getTabAt(2).setIcon(R.drawable.solo_payment_black_24dp);
                         break;
                     case 3:
-                        tabLayout.getTabAt(3).setIcon(R.drawable.send_money_black_24dp);
+                        mBinding.tabLayout.getTabAt(3).setIcon(R.drawable.send_money_black_24dp);
                         break;
                     case 4:
-                        tabLayout.getTabAt(4).setIcon(R.drawable.view_more_black_24dp);
+                        mBinding.tabLayout.getTabAt(4).setIcon(R.drawable.view_more_black_24dp);
                         break;
                 }
             }
@@ -282,6 +275,12 @@ public class MainActivity extends AppCompatActivity implements DataListener {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void customerInquiryListenerSet() {
+        Intent intent = new Intent(MainActivity.this, CustomerServiceMainActivity.class);
+        startActivity(intent);
     }
 
     @Override

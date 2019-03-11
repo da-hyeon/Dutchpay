@@ -1,4 +1,5 @@
-package com.example.mp_3.dutchpayapp.Fragment;
+package com.example.mp_3.dutchpayapp.FragmentFiles;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,10 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;

@@ -2,47 +2,30 @@ package com.example.mp_3.dutchpayapp.Activity.SendMoneyActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.database.Cursor;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.database.Cursor;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-import com.example.mp_3.dutchpayapp.Activity.MainActivity;
-import com.example.mp_3.dutchpayapp.Activity.StartDutchPayActivity.QRCodeCreateActivity;
-import com.example.mp_3.dutchpayapp.Class.Adapter.ListViewAdapter.DutchStartListViewAdapter;
+import com.example.mp_3.dutchpayapp.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.Adapter.ListViewAdapter.TelephoneDirectoryListViewAdapter;
 import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_TelephoneDirectory;
-import com.example.mp_3.dutchpayapp.Class.RequestClass.QRCancel_DBDeleteRequest;
-import com.example.mp_3.dutchpayapp.Fragment.SendMoneyFragment;
 import com.example.mp_3.dutchpayapp.R;
-import com.google.android.gms.analytics.ecommerce.Product;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class FindRemittancePartnerActivity extends AppCompatActivity {
 

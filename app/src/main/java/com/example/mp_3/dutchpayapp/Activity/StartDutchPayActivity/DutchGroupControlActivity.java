@@ -75,53 +75,44 @@ public class DutchGroupControlActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DutchGroupControlActivity.this);
                 AlertDialog dialog = builder.setMessage("금액을 확정지으시겠습니까?")
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                for (int i = 0; i < listViewItemList.size(); i++) {
-                                    //응답받기
-                                    Response.Listener<String> responseListener = new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            try {
-                                                JSONObject jsonResponse = new JSONObject(response);
-                                                boolean success = jsonResponse.getBoolean("success");
-                                                if (success) {
-
-                                                }
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                Log.d("DB Error : ", "에러에러");
-                                            }
-                                        }
-                                    };
-
-                                    ParticipantInfoUpdateRequest participantInfoUpdateRequest = new ParticipantInfoUpdateRequest(listViewItemList.get(i).getUserID(), listViewItemList.get(i).getAssignedAmount()+"" , listViewItemList.get(i).isPrePaymentCheck(), responseListener);
-                                    RequestQueue queue = Volley.newRequestQueue(DutchGroupControlActivity.this);
-                                    queue.add(participantInfoUpdateRequest);
-                                    Log.d(listViewItemList.get(i).getUserID() + "의 AssignedAmount : " , listViewItemList.get(i).getAssignedAmount()+"");
-                                }
-
-                                for(int i  = 0; i < userPushIDList.size(); i++ ) {
+                        .setPositiveButton("확인", (dialog12, which) -> {
+                            for (int i = 0; i < listViewItemList.size(); i++) {
+                                //응답받기
+                                Response.Listener<String> responseListener = response -> {
                                     try {
-                                        OneSignal.postNotification(new JSONObject("{'contents': {'en':'금액이 확정되었습니다. \n 결제를 진행해주세요.'}, 'include_player_ids': ['" + userPushIDList.get(i) + "']}"), null);
-                                    } catch (JSONException e) {
+                                        JSONObject jsonResponse = new JSONObject(response);
+                                        boolean success = jsonResponse.getBoolean("success");
+                                        if (success) {
+
+                                        }
+                                    } catch (Exception e) {
                                         e.printStackTrace();
+                                        Log.d("DB Error : ", "에러에러");
                                     }
+                                };
+
+                                ParticipantInfoUpdateRequest participantInfoUpdateRequest = new ParticipantInfoUpdateRequest(listViewItemList.get(i).getUserID(), listViewItemList.get(i).getAssignedAmount()+"" , listViewItemList.get(i).isPrePaymentCheck(), responseListener);
+                                RequestQueue queue = Volley.newRequestQueue(DutchGroupControlActivity.this);
+                                queue.add(participantInfoUpdateRequest);
+                                Log.d(listViewItemList.get(i).getUserID() + "의 AssignedAmount : " , listViewItemList.get(i).getAssignedAmount()+"");
+                            }
+
+                            for(int i  = 0; i < userPushIDList.size(); i++ ) {
+                                try {
+                                    OneSignal.postNotification(new JSONObject("{'contents': {'en':'금액이 확정되었습니다. \n 결제를 진행해주세요.'}, 'include_player_ids': ['" + userPushIDList.get(i) + "']}"), null);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-
-                                Intent intent = new Intent(DutchGroupControlActivity.this, ConfirmedDutchPayActivity.class);
-                                startActivity(intent);
-                                _QRCodeCreateActivity.finish();
-                                finish();
-
                             }
+
+                            Intent intent = new Intent(DutchGroupControlActivity.this, ConfirmedDutchPayActivity.class);
+                            startActivity(intent);
+                            _QRCodeCreateActivity.finish();
+                            finish();
+
                         })
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                        .setNegativeButton("취소", (dialog1, which) -> {
 
-                            }
                         })
                         .setCancelable(false)
                         .create();
@@ -130,12 +121,7 @@ public class DutchGroupControlActivity extends AppCompatActivity {
         });
 
         btn_before_host = (Button) findViewById(R.id.btn_before_host);
-        btn_before_host.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btn_before_host.setOnClickListener(v -> finish());
     }
 
     private class BackGroundTask_ParticipantUserList extends AsyncTask<Void, Void, String> {

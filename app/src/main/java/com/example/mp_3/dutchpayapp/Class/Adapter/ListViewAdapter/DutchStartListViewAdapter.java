@@ -2,24 +2,17 @@ package com.example.mp_3.dutchpayapp.Class.Adapter.ListViewAdapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mp_3.dutchpayapp.Activity.LoginActivity;
-import com.example.mp_3.dutchpayapp.Activity.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.ListItemClass.ListViewItem_DutchStart;
 import com.example.mp_3.dutchpayapp.R;
 

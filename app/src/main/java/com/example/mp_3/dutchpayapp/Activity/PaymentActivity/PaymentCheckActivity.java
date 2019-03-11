@@ -1,22 +1,15 @@
 package com.example.mp_3.dutchpayapp.Activity.PaymentActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.mp_3.dutchpayapp.Activity.LoginActivity;
-import com.example.mp_3.dutchpayapp.Activity.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.DialogClass.PaymentCharge_Dialog;
-import com.example.mp_3.dutchpayapp.Class.DialogClass.PaymentNumber_Dialog;
 import com.example.mp_3.dutchpayapp.Class.SingletonClass.UserInfo;
 import com.example.mp_3.dutchpayapp.R;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 
 public class PaymentCheckActivity extends AppCompatActivity {

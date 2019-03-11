@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.mp_3.dutchpayapp.Activity.MainActivity;
+import com.example.mp_3.dutchpayapp.MainActivity;
 import com.example.mp_3.dutchpayapp.Class.Adapter.TabPagerAdapter.TabPagerAdapter_history;
 import com.example.mp_3.dutchpayapp.Interface.DataListener;
 import com.example.mp_3.dutchpayapp.R;

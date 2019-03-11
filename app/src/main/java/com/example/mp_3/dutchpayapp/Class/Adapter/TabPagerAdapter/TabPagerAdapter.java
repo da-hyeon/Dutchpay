@@ -4,11 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.mp_3.dutchpayapp.Fragment.JoinDutchPayFragment;
-import com.example.mp_3.dutchpayapp.Fragment.SendMoneyFragment;
-import com.example.mp_3.dutchpayapp.Fragment.SoloPaymentFragment;
-import com.example.mp_3.dutchpayapp.Fragment.StartDutchPayFragment;
-import com.example.mp_3.dutchpayapp.Fragment.ViewMoreFragment;
+import com.example.mp_3.dutchpayapp.FragmentFiles.JoinDutchPayFragment;
+import com.example.mp_3.dutchpayapp.FragmentFiles.SendMoneyFragment;
+import com.example.mp_3.dutchpayapp.FragmentFiles.SoloPaymentFragment;
+import com.example.mp_3.dutchpayapp.FragmentFiles.StartDutchPayFragment;
+import com.example.mp_3.dutchpayapp.FragmentFiles.ViewMoreFragment;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
     // Count number of tabs

@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.mp_3.dutchpayapp.Fragment.SubFragment.DetailPaymentHistoryFragment;
-import com.example.mp_3.dutchpayapp.Fragment.SubFragment.DetailSubPaymentHistoryFragment;
+import com.example.mp_3.dutchpayapp.FragmentFiles.SubFragment.DetailPaymentHistoryFragment;
+import com.example.mp_3.dutchpayapp.FragmentFiles.SubFragment.DetailSubPaymentHistoryFragment;
 
 
 public class TabPagerAdapter_history extends FragmentStatePagerAdapter {
